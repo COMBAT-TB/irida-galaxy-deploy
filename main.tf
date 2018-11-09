@@ -13,7 +13,7 @@ resource "openstack_networking_subnet_v2" "neo4j" {
   network_id      = "${openstack_networking_network_v2.neo4j.id}"
   cidr            = "10.0.0.0/24"
   ip_version      = 4
-  dns_nameservers = ["8.8.8.8", "8.8.4.4", "192.168.2.75", "192.168.2.8"]
+  dns_nameservers = ["8.8.8.8", "8.8.4.4"]
 }
 
 resource "openstack_networking_router_v2" "neo4j" {
@@ -56,20 +56,16 @@ resource "openstack_compute_floatingip_associate_v2" "neo4j" {
   provisioner "remote-exec" {
     inline = [
       "sudo apt-get -y update",
-      "sudo apt-get -y install nginx",
-      "sudo service nginx start",
     ]
   }
-
-  # provisioner "remote-exec" {
-  #   script = "./install-docker.sh"
-  # }
 
   # Copies the docker-compose.yml
   provisioner "file" {
     source      = "docker-compose.yml"
     destination = "docker-compose.yml"
   }
+
+  # deploy neo4j
   provisioner "remote-exec" {
     script = "./deploy-neo4j.sh"
   }

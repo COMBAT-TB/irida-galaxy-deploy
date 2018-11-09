@@ -2,7 +2,7 @@
 
 This provides a template for deploying a Neo4j instance on OpenStack.
 
-_See [`variables.tf`](./variables.tf) for used defaults variables._
+**You will need to modify [`variables.tf`](./variables.tf) defaults.**
 
 ## Usage
 
@@ -42,6 +42,28 @@ $ terraform plan
 ...
 ```
 
+Install the [OpenStack CLI client](https://docs.openstack.org/newton/user-guide/common/cli-install-openstack-command-line-clients.html) and run the following:
+
+_To get a list of usable floating IP pools run the command below and take note of the name:_
+
+```
+$ openstack network list --external
++--------------------------------------+----------+--------------------------------------+
+| ID                                   | Name     | Subnets                              |
++--------------------------------------+----------+--------------------------------------+
+| 1352e2cb-4bb1-44e8-a3fe-8f08ec73c2d5 | public1  | 165ab7e5-a9e4-414c-8cac-88cc127453f3 |
++--------------------------------------+----------+--------------------------------------+
+
+```
+
+_To get a list of images available for use run and take note of the name:_
+
+```
+$ openstack image list
+```
+
+Modify [`variables.tf`](./variables.tf) using the above.
+
 Afterwards apply changes with:
 
 ```
@@ -54,15 +76,4 @@ address = FLOATING-IP
 
 Upon completion, the above command will output the instances floating IP address.
 
-You will then point your browser to [http://floatingip:7474](http://floatingip:7474) to access the Neo4j database web interface!
-
-**To get a list of usable floating IP pools install the [OpenStack CLI client](https://docs.openstack.org/newton/user-guide/common/cli-install-openstack-command-line-clients.html) run the command below:**
-
-```
-$ openstack network list --external
-+--------------------------------------+--------+----------------------------------------------------------------------------+
-| ID                                   | Name   | Subnets                                                                    |
-+--------------------------------------+--------+----------------------------------------------------------------------------+
-| fd21df30-693b-496a-ac69-8637b9c24cd3 | public1 | a2d7c467-44f9-43c5-b387-8a6742f45b5c, ee51200c-9b64-4977-ad30-622039d7bba1 |
-+--------------------------------------+--------+----------------------------------------------------------------------------+
-```
+You will then point your browser to [http://FLOATING-IP:7474](http://FLOATING-IP:7474) to access the Neo4j database web interface!

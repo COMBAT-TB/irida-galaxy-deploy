@@ -14,9 +14,9 @@ services:
     ports:
       - "7687:7687"
       - "7474:7474"
-
-networks:                                
-  default:                               
-    driver: bridge                       
-    driver_opts:                         
+# https://docs.openstack.org/project-deploy-guide/kolla-ansible/ocata/quickstart.html#build-container-images
+networks:
+  default:
+    driver: bridge
+    driver_opts:
       com.docker.network.driver.mtu: 1450

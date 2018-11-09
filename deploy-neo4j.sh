@@ -2,15 +2,17 @@
 
 # Script to install docker and docker-compose and deploy neo4j.
 
-# install docker
+# Remove older versions if installed 
 sudo apt-get remove docker docker-engine docker.io
+
+# Install required packages
 sudo apt-get install -y \
     apt-transport-https \
     ca-certificates \
     curl \
-    software-properties-common \
-    git-core
+    software-properties-common
 
+# Install docker
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
 sudo apt-key fingerprint 0EBFCD88
 sudo add-apt-repository \
