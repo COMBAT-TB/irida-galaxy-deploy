@@ -1,0 +1,22 @@
+version: "2"
+services:
+  db:
+    restart: always
+    image: neo4j:3.4
+    environment:
+      NEO4J_AUTH: none
+      NEO4J_dbms_read__only: "false"
+      #  Tuning
+      # NEO4J_dbms_memory_pagecache_size: 8G
+      # NEO4J_dbms_memory_heap_initial__size: 4G
+      # NEO4J_dbms_memory_heap_max__size: 4G
+    network_mode: "bridge"
+    ports:
+      - "7687:7687"
+      - "7474:7474"
+
+networks:                                
+  default:                               
+    driver: bridge                       
+    driver_opts:                         
+      com.docker.network.driver.mtu: 1450
