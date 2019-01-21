@@ -1,0 +1,55 @@
+version: '3'
+
+services:
+  nginx:
+    restart: always
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    image: iridanginx
+    ports:
+      - "80:80"
+    links:
+      - iridaweb
+  iridadb:
+    image: mysql:5.7.18
+    volumes:
+      - db_data:/var/lib/mysql
+    restart: always
+    command: mysqld --sql_mode=""
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpasswd
+      MYSQL_DATABASE: irida_db
+      MYSQL_USER: irida_user
+      MYSQL_PASSWORD: irida_passwd
+
+  iridaweb:
+    depends_on:
+      - iridadb
+      - irida_galaxy
+    links:
+      - iridadb
+    build: .
+    image: iridaweb
+    ports:
+      - "8080:8080"
+    volumes:
+      - data_volume:/data
+      
+    restart: always
+
+  irida_galaxy:     
+    build:
+      context: docker_galaxy/
+      dockerfile: Dockerfile
+    ports:
+      - "8800:8800"
+      - "8021:21"
+      - "8081:80"
+      - "8022:22"
+    volumes:
+      - data_volume:/data
+      
+volumes:
+  db_data:
+  

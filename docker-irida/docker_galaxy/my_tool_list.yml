@@ -1,0 +1,77 @@
+# This is just a sample file. For a fully documented version of this file, see
+# https://github.com/galaxyproject/ansible-galaxy-tools/blob/master/files/tool_list.yaml.sample
+tools:
+- name: 'column_maker'
+  owner: 'devteam'
+  tool_panel_section_id: 'textutil'
+- name: 'tabular_to_fasta'
+  owner: 'devteam'
+  tool_panel_section_id: 'convert'
+  revisions:
+  - '0b4e36026794'  # v1.1.0
+- name: 'trimmomatic'
+  owner: 'sanbi-uwc'
+  tool_panel_section_id: 'Trimming'
+  tool_shed_url: https://testtoolshed.g2.bx.psu.edu
+- name: 'data_manager_fetch_genome_dbkeys_all_fasta'
+  owner: devteam
+  tool_shed_url: https://testtoolshed.g2.bx.psu.edu
+- name: 'novo_align'
+  owner: 'sanbi-uwc'
+  tool_shed_url: https://testtoolshed.g2.bx.psu.edu
+  tool_panel_section_id: 'Alignment Tools'
+- name: 'novo_sort'
+  owner: 'sanbi-uwc'
+  tool_shed_url: https://testtoolshed.g2.bx.psu.edu
+  tool_panel_section_id: 'Sorting Tools'
+- name: 'package_gatk_sanbi_uwc_3_5'
+  tool_panel_section_id: 'Variant Calling Tools'
+  owner: 'sanbi-uwc'
+  tool_shed_url: https://testtoolshed.g2.bx.psu.edu
+  tool_panel_section_id: 'Variant Calling Tools'
+- name: 'gatk2'
+  owner: 'iuc'
+  tool_shed_url: https://testtoolshed.g2.bx.psu.edu
+  tool_panel_section_id: 'Variant Calling Tools'
+- name: 'qualimap2'
+  owner: 'sanbi-uwc'
+  tool_shed_url: https://testtoolshed.g2.bx.psu.edu
+  tool_panel_section_id: 'Qualimap'
+- name: 'picard'
+  owner: 'avowinkel'
+  tool_shed_url: https://testtoolshed.g2.bx.psu.edu
+  tool_panel_section_id: 'Picard Tools'
+- name: 'snpeff'
+  owner: 'jjohnson'
+  tool_shed_url: https://testtoolshed.g2.bx.psu.edu
+  tool_panel_section_id: 'Variant Annotation'
+- name: 'freebayes'
+  owner: 'devteam'
+  tool_shed_url: https://testtoolshed.g2.bx.psu.edu
+  tool_panel_section_id: 'Variant Detector'
+  revisions:
+    - '9f3d6c3098ac'
+- name: 'bwa'
+  owner: 'devteam'
+  tool_shed_url: https://testtoolshed.g2.bx.psu.edu
+  tool_panel_section_id: 'BWA Tools'
+- name: 'fastqc'
+  owner: 'devteam'
+  tool_shed_url: https://testtoolshed.g2.bx.psu.edu
+  tool_panel_section_id: 'FastQc'
+- name: 'samtools_mpileup'
+  owner: devteam
+  tool_shed_url: https://testtoolshed.g2.bx.psu.edu
+  tool_panel_section_id: 'Sam Tools'
+- name: 'vcf_to_alignment'
+  owner: sanbi-uwc
+  tool_shed_url: https://testtoolshed.g2.bx.psu.edu
+  tool_panel_section_id: 'Phylogenetics'
+- name: 'fasttree'
+  owner: sanbi-uwc
+  tool_shed_url: https://testtoolshed.g2.bx.psu.edu
+  tool_panel_section_id: 'Phylogenetics'
+- name: 'tb2neo'
+  owner: sanbi-uwc
+  tool_shed_url: https://testtoolshed.g2.bx.psu.edu
+  tool_panel_section_id: 'Sequence Analysis'

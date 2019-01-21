@@ -1,6 +1,6 @@
-# Deploying a Neo4j instance on OpenStack using Terraform
+# Deploying a IRIDA instance on OpenStack using Terraform
 
-This provides a template for deploying a Neo4j instance on OpenStack.
+This provides a template for deploying a Irida instance on OpenStack.
 
 **You will need to modify [`variables.tf`](./variables.tf) defaults.**
 
@@ -76,4 +76,4 @@ address = FLOATING-IP
 
 Upon completion, the above command will output the instances floating IP address.
 
-You will then point your browser to [http://FLOATING-IP:7474](http://FLOATING-IP:7474) to access the Neo4j database web interface!
+You will then point your browser to [http://FLOATING-IP:8080](http://FLOATING-IP:8080) to access the Irida database web interface!
