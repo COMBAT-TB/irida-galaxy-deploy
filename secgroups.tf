@@ -41,17 +41,17 @@ resource "openstack_networking_secgroup_rule_v2" "irida_8080" {
   security_group_id = "${openstack_networking_secgroup_v2.irida.id}"
 }
 
-/* resource "openstack_networking_secgroup_rule_v2" "irida_7687" {
+resource "openstack_networking_secgroup_rule_v2" "irida_3306" {
   direction         = "ingress"
   ethertype         = "IPv4"
   protocol          = "tcp"
-  port_range_min    = 7687
-  port_range_max    = 7687
+  port_range_min    = 3306
+  port_range_max    = 3306
   remote_ip_prefix  = "0.0.0.0/0"
   security_group_id = "${openstack_networking_secgroup_v2.irida.id}"
 }
 
-resource "openstack_networking_secgroup_rule_v2" "irida_2376" {
+/*resource "openstack_networking_secgroup_rule_v2" "irida_2376" {
   direction         = "ingress"
   ethertype         = "IPv4"
   protocol          = "tcp"

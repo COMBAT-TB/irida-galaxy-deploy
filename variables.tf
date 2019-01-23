@@ -3,11 +3,11 @@ variable "image" {
 }
 
 variable "flavor" {
-  default = "m1.small"
+  default = "m1.medium"
 }
 
 variable "ssh_key_file" {
-  default = "~/.ssh/vms"
+  default = "~/.ssh/id_rsa"
 }
 
 variable "ssh_user_name" {
