@@ -1,0 +1,7 @@
+[development]
+123.45.67.89
+irida-dev.sanbi.ac.za
+
+[production]
+132.45.67.89
+irida.sanbi.ac.za

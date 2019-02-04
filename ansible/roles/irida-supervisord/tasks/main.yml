@@ -1,0 +1,10 @@
+---
+- name: install supervisord
+  package: name=supervisor state=present
+  become: true
+- name: install supervisord Galaxy configuration
+  template:
+    src: galaxy.conf.j2
+    dest: /etc/supervisor/conf.d/galaxy.conf
+  notify: restart supervisord
+  become: true

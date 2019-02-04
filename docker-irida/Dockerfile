@@ -48,5 +48,6 @@ COPY wait-for-it.sh .
 COPY docker-entrypoint.sh .
 
 ENTRYPOINT ["./docker-entrypoint.sh"]
+
 CMD ["./wait-for-it.sh", "iridadb:3306", "--", "catalina.sh", "run"]
 

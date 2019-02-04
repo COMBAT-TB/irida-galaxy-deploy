@@ -1,0 +1,11 @@
+[program:web]
+command         = {{ galaxy_server_dir }}/.venv/bin/uwsgi --yaml {{ galaxy_server_dir }}/config/galaxy.yml
+directory       = {{ galaxy_server_dir }}
+umask           = 022
+autostart       = true
+autorestart     = true
+startsecs       = 10
+user            = {{ galaxy_user }}
+numprocs        = 1
+stopsignal      = INT
+environment = PATH={{ galaxy_server_dir }}/.venv/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin,VIRTUAL_ENV={{ galaxy_server_dir }}/.venv

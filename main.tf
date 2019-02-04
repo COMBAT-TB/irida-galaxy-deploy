@@ -60,13 +60,13 @@ resource "openstack_compute_floatingip_associate_v2" "irida" {
   }
 
   # Copies the docker-compose.yml
-  provisioner "file" {
-    source      = "docker-irida"
-    destination = "./"
-  }
+  #provisioner "file" {6
+  #  source      = "docker-irida"
+  # destination = "./"
+  #}
 
   # deploy irida
-  provisioner "remote-exec" {
-    script = "./deploy-irida.sh"
-  }
+  #provisioner "remote-exec" {
+  #  script = "./deploy-irida.sh"
+  #}
 }
