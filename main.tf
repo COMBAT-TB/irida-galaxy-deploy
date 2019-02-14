@@ -1,50 +1,82 @@
-resource "openstack_compute_keypair_v2" "irida" {
-  name       = "irida"
+resource "openstack_networking_secgroup_v2" "secgroup_irida" {
+  name        = "secgroup_irida"
+  description = "IRIDA irida access security group"
+}
+
+resource "openstack_networking_secgroup_v2" "secgroup_general" {
+  name        = "secgroup_general"
+  description = "My neutron ssh-access security group"
+}
+
+module "general_rules" {
+  source          = "./modules/network_rules/general"
+  secgroup_id   = "${openstack_networking_secgroup_v2.secgroup_general.id}"
+}
+
+module "irida_rules" {
+  source          = "./modules/network_rules/irida"
+  secgroup_id = "${openstack_networking_secgroup_v2.secgroup_irida.id}"
+}
+
+resource "openstack_compute_keypair_v2" "irida-keypair" {
+  name       = "irida-keypair"
   public_key = "${file("${var.ssh_key_file}.pub")}"
 }
 
-resource "openstack_networking_network_v2" "irida" {
-  name           = "irida"
+resource "openstack_networking_network_v2" "irida_network_1" {
+  name           = "irida_network_1"
   admin_state_up = "true"
 }
 
-resource "openstack_networking_subnet_v2" "irida" {
-  name            = "irida"
-  network_id      = "${openstack_networking_network_v2.irida.id}"
+resource "openstack_networking_subnet_v2" "subnet_1" {
+  name            = "irida_subnet_1"
+  network_id      = "${openstack_networking_network_v2.irida_network_1.id}"
   cidr            = "10.0.0.0/24"
   ip_version      = 4
-  dns_nameservers = ["8.8.8.8", "8.8.4.4"]
+  dns_nameservers = ["192.168.2.75", "192.168.2.8"]
 }
 
-resource "openstack_networking_router_v2" "irida" {
-  name                = "irida"
+data "openstack_networking_network_v2" "public_network" {
+  name = "${var.public_network}"
+}
+
+data "openstack_networking_network_v2" "ceph_network" {
+  name = "${var.ceph_network}"
+}
+
+resource "openstack_networking_router_v2" "router_1" {
+  name                = "router_1"
   admin_state_up      = "true"
-  external_network_id = "${data.openstack_networking_network_v2.irida.id}"
+  external_network_id = "${data.openstack_networking_network_v2.public_network.id}"
 }
 
-resource "openstack_networking_router_interface_v2" "irida" {
-  router_id = "${openstack_networking_router_v2.irida.id}"
-  subnet_id = "${openstack_networking_subnet_v2.irida.id}"
+resource "openstack_networking_router_interface_v2" "router_interface_1" {
+  router_id = "${openstack_networking_router_v2.router_1.id}"
+  subnet_id = "${openstack_networking_subnet_v2.subnet_1.id}"
 }
 
-resource "openstack_networking_floatingip_v2" "irida" {
+resource "openstack_networking_floatingip_v2" "floatip_1" {
   pool = "${var.pool}"
 }
 
 resource "openstack_compute_instance_v2" "irida" {
-  name            = "irida"
+  name            = "irida_instance"
   image_name      = "${var.image}"
   flavor_name     = "${var.flavor}"
-  key_pair        = "${openstack_compute_keypair_v2.irida.name}"
-  security_groups = ["default", "${openstack_networking_secgroup_v2.irida.name}"]
-
+  key_pair        = "${openstack_compute_keypair_v2.irida-keypair.name}"
+  security_groups = ["default", "secgroup_irida", "secgroup_general"]
+  user_data       = "#cloud-config\nhostname: ${var.fqdn} \nfqdn: ${var.fqdn}"
+  
+  metadata {
+    ansible_groups = "irida"
+  }
   network {
-    uuid = "${openstack_networking_network_v2.irida.id}"
+    uuid = "${openstack_networking_network_v2.irida_network_1.id}"
   }
 }
 
-resource "openstack_compute_floatingip_associate_v2" "irida" {
-  floating_ip = "${openstack_networking_floatingip_v2.irida.address}"
+resource "openstack_compute_floatingip_associate_v2" "irida_fip1" {
+  floating_ip = "${openstack_networking_floatingip_v2.floatip_1.address}"
   instance_id = "${openstack_compute_instance_v2.irida.id}"
 
   connection {
@@ -55,19 +87,9 @@ resource "openstack_compute_floatingip_associate_v2" "irida" {
 
   provisioner "remote-exec" {
     inline = [
-      "sudo apt-get -y update",
-      "sudo apt-get install -y python"
+      "sudo apt-get -y update; sleep 5",
+      "sudo apt-get install -y python-minimum python python-pip",
+      "sudo pip install --upgrade pip"
     ]
   }
 
-  # Copies the docker-compose.yml
-  #provisioner "file" {6
-  #  source      = "docker-irida"
-  # destination = "./"
-  #}
-
-  # deploy irida
-  #provisioner "remote-exec" {
-  #  script = "./deploy-irida.sh"
-  #}
-}

@@ -17,3 +17,15 @@ variable "ssh_user_name" {
 variable "pool" {
   default = "public1"
 }
+
+variable "fqdn" {
+  default = "irida-dev.sanbi.ac.za"
+}
+
+variable "public_network" {
+  default = "public1"
+}
+
+variable "ceph_network" {
+  default = "ceph-net"
+}
