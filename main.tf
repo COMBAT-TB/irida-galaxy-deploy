@@ -92,4 +92,4 @@ resource "openstack_compute_floatingip_associate_v2" "irida_fip1" {
       "sudo pip install --upgrade pip"
     ]
   }
-
+}
