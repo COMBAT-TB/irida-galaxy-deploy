@@ -3,10 +3,10 @@ apt_list_path:
 packages:
   - perl
   - fastqc
-  - --no-install-recommends
   - ca-certificates
-guso_version: 1.10
+gosu_version: "1.10"
 irida_user: ubuntu
 irida_data_dir: /projects/galaxy-dev/irida/data
-irida_home_dir: /home/{{irida_user}}/
+irida_home_dir: "/home/ubuntu/"
 irida_version: 0.17.1
+irida_tomcat_home: "/opt/tomcat/current"

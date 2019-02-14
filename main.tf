@@ -56,6 +56,7 @@ resource "openstack_compute_floatingip_associate_v2" "irida" {
   provisioner "remote-exec" {
     inline = [
       "sudo apt-get -y update",
+      "sudo apt-get install -y python"
     ]
   }
 

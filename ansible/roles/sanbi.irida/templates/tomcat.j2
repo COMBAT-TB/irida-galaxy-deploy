@@ -1,0 +1,24 @@
+###export CATALINA_HOME="/opt/tomcat/apache-tomcat-8.5.32"
+## export JAVA_HOME="/usr/lib/jvm/java-8-openjdk-amd64/jre"
+export CATALINA_HOME="/opt/tomcat/apache-tomcat-8.5.32"
+ERROR=0
+case "$1" in
+ start)
+            echo $"Starting Tomcat"
+            sh $CATALINA_HOME/bin/startup.sh
+            ;;
+ stop)
+           echo $"Stopping Tomcat"
+           sh $CATALINA_HOME/bin/shutdown.sh
+           ;;
+ restart)
+           sh $CATALINA_HOME/bin/shutdown.sh
+           sh $CATALINA_HOME/bin/startup.sh
+            ;;
+ *)
+         echo $"Usage: $0 {start|stop|restart}"
+ exit 1
+ ;;
+esac
+
+exit $ERROR

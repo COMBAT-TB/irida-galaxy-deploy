@@ -11,10 +11,11 @@
   apt:
     name: "*"
     state: latest
-
+  
 - name: Install a list of packages
   apt:
-    name: "{{ packages }}"  
+    name: "{{ all.packages }}"  
+    install_recommends: no
 
 - name: Creates irida home dir
   file:
@@ -24,66 +25,80 @@
 - name: Clean the apt list PATH
   file:
     state: absent
-    path: "{{ apt_list_path }}" 
+    path: "{{ all.apt_list_path }}" 
  
+- name: Setting variables for GOSU
+  shell: "echo $dpkgArch"
+  environment:
+    dpkgArch: "$(dpkg --print-architecture | awk -F- '{ print $NF }')"
+  register: irida_gosu_variables
+- debug:
+    var: irida_gosu_variables.stdout
+
 - name: Install dependencies 
-  command: "{{item}}"
+  shell: "{{ item }}"
   with_items:
-    - set -ex
     - dpkgArch="$(dpkg --print-architecture | awk -F- '{ print $NF }')"
-	  - wget -O /usr/local/bin/gosu "https://github.com/tianon/gosu/releases/download/{{ gosu_version }}/gosu-$dpkgArch"
-	  - wget -O /usr/local/bin/gosu.asc "https://github.com/tianon/gosu/releases/download/{{ gosu_version }}/gosu-$dpkgArch.asc"
-	  - export GNUPGHOME="$(mktemp -d)"
-	  - gpg --keyserver ha.pool.sks-keyservers.net --recv-keys B42F6819007F00F88E364FD4036A9C25BF357DD4
-	  - gpg --batch --verify /usr/local/bin/gosu.asc /usr/local/bin/gosu
-	  - rm -r "$GNUPGHOME" /usr/local/bin/gosu.asc
-	  - chmod +x /usr/local/bin/gosu
+    # - wget -O /usr/local/bin/gosu "https://github.com/tianon/gosu/releases/download/1.10/gosu-$dpkgArch"
+    # - wget -O /usr/local/bin/gosu.asc "https://github.com/tianon/gosu/releases/download/1.10/gosu-$dpkgArch.asc"
+    - wget -O /usr/local/bin/gosu "https://github.com/tianon/gosu/releases/download/1.10/gosu-amd64"
+    - wget -O /usr/local/bin/gosu.asc "https://github.com/tianon/gosu/releases/download/1.10/gosu-amd64.asc"
+    - export GNUPGHOME="$(mktemp -d)"
+
+- name: Install more dependencies 
+  shell: "{{ item }}"
+  with_items:
+    - gpg --keyserver ha.pool.sks-keyservers.net --recv-keys B42F6819007F00F88E364FD4036A9C25BF357DD4
+    - gpg --batch --verify /usr/local/bin/gosu.asc /usr/local/bin/gosu
+    - rm -r "$(mktemp -d)" /usr/local/bin/gosu.asc
+    - chmod +x /usr/local/bin/gosu
     - gosu nobody true
     
-
 - name: Creates Irida data dir
   file:
-    path: "{{irida_data_dir}}"/data
+    path: "{{all.irida_data_dir}}/data"
     state: directory
 
 - name: Download IRIDA war file
   get_url:
     url: https://github.com/SANBI-SA/irida/releases/download/sanbi-bvc-test/irida-0.17.1.war
-    dest: /usr/local/tomcat/webapps/irida.war
+    dest: /opt/tomcat/apache-tomcat-8.5.32/webapps/irida.war
 
 - name: Creates IRIDA Data subdirectories
   file:
     path: "{{ item }}"
     state: directory
   with_items:
-    - "{{irida_data_dir}}"/sequence
-    - "{{irida_data_dir}}"/reference
-    - "{{irida_data_dir}}"/output
+    - "{{all.irida_data_dir}}/sequence"
+    - "{{all.irida_data_dir}}/reference"
+    - "{{all.irida_data_dir}}/output"
+- debug:
+    var: gxadminuser.stdout
 
 - name: Setting variables for JAVA_OPTS
   shell: "echo $JAVA_OPTS"
   environment:
     JAVA_OPTS: -Dspring.profiles.active=prod -Ddandelion.profile.active=prod
   register: javaopts
-  - debug:
-      var: javaopts.stdout
+- debug:
+    var: javaopts.stdout
 
 - name: Setting variables for GALAXY admin user
   shell: "echo $GALAXY_ADMIN_USER"
   environment:
     GALAXY_ADMIN_USER: zipho@sanbi.ac.za
   register: gxadminuser
-  - debug:
-      var: gxadminuser.stdout
+- debug:
+    var: gxadminuser.stdout
 
 - name: Setting variables for IRIDA StartUp
   shell: "echo $IRIDA_VERSION"
   environment:
-    IRIDA_VERSION: "{{irida_version}}"
-    IRIDA_DATA_DIR: "{{ irida_data_dir}}"
+    IRIDA_VERSION: "{{all.irida_version}}"
+    IRIDA_DATA_DIR: "{{all.irida_data_dir}}"
   register: irida_startup
-  - debug:
-      var: irida_startup.stdout
+- debug:
+    var: irida_startup.stdout
 
 - name: install WEB configuration
   template:
@@ -95,13 +110,29 @@
     src: irida.conf.j2
     dest: /etc/irida/irida.conf
 
-- name: install Start-Up configuration script
+- name: copy TOMCAT environmental variables
   template:
-    src: wait-for-it.sh.j2
-    dest: "{{ irida_home_dir}}"/wait-for-it.sh
+    src: setenv.sh.j2
+    dest: "{{ all.irida_tomcat_home }}/bin/setenv.sh"
 
-- name: Transfer the startup script
-    copy: src=startup.sh dest="{{ irida_home}}" mode=0777
+- name: install tomcat startup script
+  template:
+    src: tomcat.j2
+    dest: /etc/init.d/tomcat
+    owner: root
+    group: root
+    mode: 775
 
-- name: Execute the startup script
-    command: sh "{{ irida_home}}"/startup.sh
+- name: Create symbolic link of custom tomcat to the runlevels
+  file:
+    src: '{{ item.src }}'
+    dest: '{{ item.dest }}'
+    state: link
+  with_items:
+    - { src: '/etc/init.d/tomcat', dest: '/etc/rc0.d/K26tomcat' }
+    - { src: '/etc/init.d/tomcat', dest: '/etc/rc6.d/K26tomcat' }
+    - { src: '/etc/init.d/tomcat', dest: '/etc/rc3.d/S81tomcat' }
+    - { src: '/etc/init.d/tomcat', dest: '/etc/rc2.d/S81tomcat' }
+    - { src: '/etc/init.d/tomcat', dest: '/etc/rc5.d/S81tomcat' }
+
+    

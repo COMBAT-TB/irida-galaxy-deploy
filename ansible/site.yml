@@ -1,22 +1,30 @@
 ---
-- name: Install Galaxy on Galaxy server
+- name: Install IRIDA on Cluster server
   hosts: irida-dev
-  tags: irida
+  tags: irida-dev
   become: yes
   pre_tasks:
     - include_role:
         name: ansible-role-cephfs_client
       vars:
         cephfs_client_mapping:
-          - {"src": "/projects/irida-dev", "dst": "/irida-dev", "id": "galaxy-dev", "key": "AQCgAU9c0dV5IhAAs9CZGvBSo9LFX3yqF6xJzQ=="}
-          - {"src": "/projects/irida", "dst": "/irida", "id": "galaxy", "key": "AQCUFlBcowFeKBAAbdPKa5+ojFyQJgX9YY/WLw===="}
+          - {"src": "/projects/irida-dev", "dst": "/irida-dev", "id": "irida-dev", "key": "AQCgAU9c0dV5IhAAs9CZGvBSo9LFX3yqF6xJzQ=="}
+          - {"src": "/projects/irida", "dst": "/irida", "id": "irida", "key": "AQCUFlBcowFeKBAAbdPKa5+ojFyQJgX9YY/WLw===="}
   tasks:
     - name: Create Mysql user and database
       include_role:
-        name: ansible-role-mysql #https://github.com/geerlingguy/ansible-role-mysql.git
-      vars:
-        ansible_become: true
-        ansible_become_user: postgres
+        name: ansible-role-mysql 
+    
+    - name: Install Java8
+      include_role:
+        name: geerlingguy.java
+
+    - name: Install Tomcat8
+      include_role:
+        name: flxpeters.tomcat8
+      tomcat_java_home: "/usr/james"
+
+  
     - name: Install IRIDA
       include_role:
         name: sanbi.irida
@@ -25,13 +33,10 @@
     #   include_role:
     #     name: irida-supervisord
 
-    - name: Install Tomcat8
-      include_role:
-        name: gflxpeters.tomcat8
   
-  post_tasks:
-    - name: Transfer the script
-      copy: src=test.sh dest=/home/test_user mode=0777
+  # post_tasks:
+  #   - name: Transfer the script
+  #     copy: src=test.sh dest=/home/test_user mode=0777
 
-    - name: Execute the script
-      command: sh /home/test_user/test.sh
+  #   - name: Execute the script
+  #     command: sh /home/test_user/test.sh

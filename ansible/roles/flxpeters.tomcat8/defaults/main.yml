@@ -11,3 +11,4 @@ tomcat_roles:
   - manager-jmx
   - manager-status
 tomcat_users: []
+tomcat_java_home: "/usr/lib/jvm/java-8-openjdk-amd64/jre"

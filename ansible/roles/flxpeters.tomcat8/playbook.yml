@@ -1,9 +1,9 @@
 ---
-- hosts: all
+- hosts: irida-dev
   vars:
     java_packages:
       - openjdk-8-jdk
-    tomcat_java_home: "/usr/lib/jvm/java-1.8.0-openjdk-amd64/jre"
+    tomcat_java_home: "/usr/lib/jvm/java-8-openjdk-amd64/jre"
 
   roles:
     - geerlingguy.java
