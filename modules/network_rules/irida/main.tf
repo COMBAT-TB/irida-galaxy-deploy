@@ -26,6 +26,7 @@ resource "openstack_networking_secgroup_rule_v2" "irida_8080" {
   port_range_max    = 8080
   remote_ip_prefix  = "0.0.0.0/0"
   security_group_id = "${var.secgroup_id}"
+}
 
 resource "openstack_networking_secgroup_rule_v2" "irida_8081" {
   direction         = "ingress"
@@ -43,16 +44,6 @@ resource "openstack_networking_secgroup_rule_v2" "irida_3306" {
   protocol          = "tcp"
   port_range_min    = 3306
   port_range_max    = 3306
-  remote_ip_prefix  = "0.0.0.0/0"
-  security_group_id = "${var.secgroup_id}"
-}
-
-resource "openstack_networking_secgroup_rule_v2" "irida_https_rule_2" {
-  direction         = "ingress"
-  ethertype         = "IPv4"
-  protocol          = "tcp"
-  port_range_min    = 443
-  port_range_max    = 443
   remote_ip_prefix  = "0.0.0.0/0"
   security_group_id = "${var.secgroup_id}"
 }
@@ -87,7 +78,6 @@ resource "openstack_networking_secgroup_rule_v2" "irida_ldaps_rule_1" {
   security_group_id = "${var.secgroup_id}"
 }
 
-
 resource "openstack_networking_secgroup_rule_v2" "irida_dns_rule_1" {
   direction         = "ingress"
   ethertype         = "IPv4"
@@ -97,6 +87,7 @@ resource "openstack_networking_secgroup_rule_v2" "irida_dns_rule_1" {
   remote_ip_prefix  = "0.0.0.0/0"
   security_group_id = "${var.secgroup_id}"
 }
+
 resource "openstack_networking_secgroup_rule_v2" "irida_dns_rule_2" {
   direction         = "ingress"
   ethertype         = "IPv4"

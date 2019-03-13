@@ -1,15 +1,15 @@
 ---
 - name: Install IRIDA on Cluster server
-  hosts: irida-dev
+  hosts: devservers
   tags: irida-dev
   become: yes
   pre_tasks:
     - include_role:
-        name: ansible-role-cephfs_client
+        name: ansible-role-cephfs_client        
       vars:
         cephfs_client_mapping:
-          - {"src": "/projects/irida-dev", "dst": "/irida-dev", "id": "irida-dev", "key": "AQCgAU9c0dV5IhAAs9CZGvBSo9LFX3yqF6xJzQ=="}
-          - {"src": "/projects/irida", "dst": "/irida", "id": "irida", "key": "AQCUFlBcowFeKBAAbdPKa5+ojFyQJgX9YY/WLw===="}
+          - {"src": "/projects/irida-dev", "dst": "/irida-dev", "id": "irida-dev", "key": "AQBccmVcKxj2JBAAAZ5kD/cgucYaWEsZFJ/pEA=="}
+          - {"src": "/projects/irida", "dst": "/irida", "id": "irida", "key": "AQBRcmVckrrBDxAAw3fqpifPXO59NZwvVVWouA=="}
   tasks:
     - name: Create Mysql user and database
       include_role:
@@ -22,21 +22,7 @@
     - name: Install Tomcat8
       include_role:
         name: flxpeters.tomcat8
-      tomcat_java_home: "/usr/james"
-
   
     - name: Install IRIDA
       include_role:
         name: sanbi.irida
-
-    # - name: Install supervisord
-    #   include_role:
-    #     name: irida-supervisord
-
-  
-  # post_tasks:
-  #   - name: Transfer the script
-  #     copy: src=test.sh dest=/home/test_user mode=0777
-
-  #   - name: Execute the script
-  #     command: sh /home/test_user/test.sh

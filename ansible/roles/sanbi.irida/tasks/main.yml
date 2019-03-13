@@ -11,6 +11,7 @@
   apt:
     name: "*"
     state: latest
+    force_apt_get: yes
   
 - name: Install a list of packages
   apt:
@@ -110,10 +111,50 @@
     src: irida.conf.j2
     dest: /etc/irida/irida.conf
 
+# MYSQL section --------------------------------------------------------
+# - name: Irida mysql IRIDA configuration
+#   template:
+#     src: mysql_config.sql.j2
+#     dest: "{{ all.irida_tomcat_home }}/bin/mysql_config.sql"
+
+# Copy database dump file to remote host and restore it to database 'irida_db'
+# - name: Copy database dump file
+#   template:
+#     src: mysql_config.sql.j2
+#     dest: /tmp/mysql_config.sql
+
+# - name: Run the mysql_config.sql
+#   mysql_db:
+#     name: irida_db
+#     state: import
+#     target: /tmp/mysql_config.sql
+
+# create user and grant priviledges
+- mysql_user:
+    name: "{{all.mysql_user}}"
+    password: "{{all.mysql_password}}"
+    priv: '*.*:ALL'
+    state: present
+
+# create a database
+- name: Create a new database with name 'irida_db'
+  mysql_db:
+    name: "{{all.mysql_database}}"
+    state: present
+
+# Set sql_mode variable for liquibase to work -- report issue to irida
+# - mysql_variables:
+#     variable: sql_mode
+#     value: 'STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION'
+   
+# TOMCAT section ---------------------------------------------------------
 - name: copy TOMCAT environmental variables
   template:
     src: setenv.sh.j2
     dest: "{{ all.irida_tomcat_home }}/bin/setenv.sh"
+    owner: root
+    group: tomcat
+    mode: 775
 
 - name: install tomcat startup script
   template:
@@ -134,5 +175,3 @@
     - { src: '/etc/init.d/tomcat', dest: '/etc/rc3.d/S81tomcat' }
     - { src: '/etc/init.d/tomcat', dest: '/etc/rc2.d/S81tomcat' }
     - { src: '/etc/init.d/tomcat', dest: '/etc/rc5.d/S81tomcat' }
-
-    

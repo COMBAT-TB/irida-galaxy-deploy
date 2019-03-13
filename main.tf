@@ -3,14 +3,14 @@ resource "openstack_networking_secgroup_v2" "secgroup_irida" {
   description = "IRIDA irida access security group"
 }
 
-resource "openstack_networking_secgroup_v2" "secgroup_general" {
-  name        = "secgroup_general"
+resource "openstack_networking_secgroup_v2" "secgroup_gen_irida" {
+  name        = "secgroup_gen_irida"
   description = "My neutron ssh-access security group"
 }
 
 module "general_rules" {
   source          = "./modules/network_rules/general"
-  secgroup_id   = "${openstack_networking_secgroup_v2.secgroup_general.id}"
+  secgroup_id   = "${openstack_networking_secgroup_v2.secgroup_gen_irida.id}"
 }
 
 module "irida_rules" {
@@ -61,10 +61,10 @@ resource "openstack_networking_floatingip_v2" "floatip_1" {
 
 resource "openstack_compute_instance_v2" "irida" {
   name            = "irida_instance"
-  image_name      = "${var.image}"
+  image_id        = "${var.image_id}"
   flavor_name     = "${var.flavor}"
   key_pair        = "${openstack_compute_keypair_v2.irida-keypair.name}"
-  security_groups = ["default", "secgroup_irida", "secgroup_general"]
+  security_groups = ["default", "secgroup_irida", "secgroup_gen_irida"]
   user_data       = "#cloud-config\nhostname: ${var.fqdn} \nfqdn: ${var.fqdn}"
   
   metadata {
@@ -80,7 +80,7 @@ resource "openstack_compute_floatingip_associate_v2" "irida_fip1" {
   instance_id = "${openstack_compute_instance_v2.irida.id}"
 
   connection {
-    host        = "${openstack_networking_floatingip_v2.irida.address}"
+    host        = "${openstack_networking_floatingip_v2.floatip_1.address}"
     user        = "${var.ssh_user_name}"
     private_key = "${file(var.ssh_key_file)}"
   }
@@ -88,8 +88,8 @@ resource "openstack_compute_floatingip_associate_v2" "irida_fip1" {
   provisioner "remote-exec" {
     inline = [
       "sudo apt-get -y update; sleep 5",
-      "sudo apt-get install -y python-minimum python python-pip",
-      "sudo pip install --upgrade pip"
+      "sudo apt-get install -y python",      
     ]
   }
+
 }

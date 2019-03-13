@@ -4,9 +4,14 @@ packages:
   - perl
   - fastqc
   - ca-certificates
+  - python-pymysql
 gosu_version: "1.10"
 irida_user: ubuntu
 irida_data_dir: /projects/galaxy-dev/irida/data
 irida_home_dir: "/home/ubuntu/"
 irida_version: 0.17.1
 irida_tomcat_home: "/opt/tomcat/current"
+mysql_user: irida_user
+mysql_password: irida_passwd
+mysql_database: irida_db
+tomcat_daemon: tomcat

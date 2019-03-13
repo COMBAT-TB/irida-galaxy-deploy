@@ -1,4 +1,0 @@
-#Post Deploy - Extra Commands
-
-GRANT ALL PRIVILEGES ON *.* TO 'irida_user'@'localhost' IDENTIFIED BY 'irida_passwd';
-SET GLOBAL sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));

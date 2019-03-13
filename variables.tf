@@ -1,5 +1,5 @@
-variable "image" {
-  default = "ubuntu-16.04_working"
+variable "image_id" {
+  default = "ceca3226-51cb-4c9a-8a84-db8aedf0b847"
 }
 
 variable "flavor" {
