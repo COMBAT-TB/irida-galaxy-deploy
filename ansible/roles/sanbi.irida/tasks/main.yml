@@ -40,8 +40,6 @@
   shell: "{{ item }}"
   with_items:
     - dpkgArch="$(dpkg --print-architecture | awk -F- '{ print $NF }')"
-    # - wget -O /usr/local/bin/gosu "https://github.com/tianon/gosu/releases/download/1.10/gosu-$dpkgArch"
-    # - wget -O /usr/local/bin/gosu.asc "https://github.com/tianon/gosu/releases/download/1.10/gosu-$dpkgArch.asc"
     - wget -O /usr/local/bin/gosu "https://github.com/tianon/gosu/releases/download/1.10/gosu-amd64"
     - wget -O /usr/local/bin/gosu.asc "https://github.com/tianon/gosu/releases/download/1.10/gosu-amd64.asc"
     - export GNUPGHOME="$(mktemp -d)"
@@ -62,7 +60,7 @@
 
 - name: Download IRIDA war file
   get_url:
-    url: https://github.com/SANBI-SA/irida/releases/download/sanbi-bvc-test/irida-0.17.1.war
+    url: https://github.com/COMBAT-TB/irida/releases/download/v19.01.1-sanbi/irida-19.01.1.war
     dest: /opt/tomcat/apache-tomcat-8.5.32/webapps/irida.war
 
 - name: Creates IRIDA Data subdirectories
@@ -111,24 +109,6 @@
     src: irida.conf.j2
     dest: /etc/irida/irida.conf
 
-# MYSQL section --------------------------------------------------------
-# - name: Irida mysql IRIDA configuration
-#   template:
-#     src: mysql_config.sql.j2
-#     dest: "{{ all.irida_tomcat_home }}/bin/mysql_config.sql"
-
-# Copy database dump file to remote host and restore it to database 'irida_db'
-# - name: Copy database dump file
-#   template:
-#     src: mysql_config.sql.j2
-#     dest: /tmp/mysql_config.sql
-
-# - name: Run the mysql_config.sql
-#   mysql_db:
-#     name: irida_db
-#     state: import
-#     target: /tmp/mysql_config.sql
-
 # create user and grant priviledges
 - mysql_user:
     name: "{{all.mysql_user}}"
@@ -142,11 +122,23 @@
     name: "{{all.mysql_database}}"
     state: present
 
-# Set sql_mode variable for liquibase to work -- report issue to irida
-# - mysql_variables:
-#     variable: sql_mode
-#     value: 'STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION'
-   
+# create irida plugin directory    
+- name: Creates Irida plugin dir
+  file:
+    path: "/etc/irida/plugins"
+    state: directory
+
+# install irida pipeline plugins
+- name: install IRIDA Snippy pipeline plugin
+  template:
+    src: irida-snippy-pipeline-plugin-0.1.0-SNAPSHOT.jar.j2
+    dest: /etc/irida/plugins/irida-snippy-pipeline-plugin-0.1.0-SNAPSHOT.jar
+
+- name: install IRIDA SANBI BVC pipeline plugin
+  template:
+    src: sanbi-bvc-plugin-0.1.0-SNAPSHOT.jar.j2
+    dest: /etc/irida/plugins/sanbi-bvc-plugin-0.1.0-SNAPSHOT.jar
+
 # TOMCAT section ---------------------------------------------------------
 - name: copy TOMCAT environmental variables
   template:
@@ -175,3 +167,4 @@
     - { src: '/etc/init.d/tomcat', dest: '/etc/rc3.d/S81tomcat' }
     - { src: '/etc/init.d/tomcat', dest: '/etc/rc2.d/S81tomcat' }
     - { src: '/etc/init.d/tomcat', dest: '/etc/rc5.d/S81tomcat' }
+
