@@ -2,7 +2,7 @@
 ## export JAVA_HOME="/usr/lib/jvm/java-8-openjdk-amd64/jre"
 export CATALINA_HOME="/opt/tomcat/apache-tomcat-8.5.32"
 export JAVA_HOME="/usr/lib/jvm/java-8-openjdk-amd64/jre"
-export JAVA_OPTS="-Dspring.profiles.active=prod -Ddandelion.profile.active=prod"
+export JAVA_OPTS="-Dspring.profiles.active=web,analysis,processing -Dirida.db.profile=prod"
 ERROR=0
 case "$1" in
  start)

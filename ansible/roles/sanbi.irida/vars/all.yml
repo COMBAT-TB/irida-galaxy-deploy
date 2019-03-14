@@ -7,7 +7,7 @@ packages:
   - python-pymysql
 gosu_version: "1.10"
 irida_user: ubuntu
-irida_data_dir: /projects/galaxy-dev/irida/data
+irida_data_dir: /projects/galaxy/irida/data
 irida_home_dir: "/home/ubuntu/"
 irida_version: 0.17.1
 irida_tomcat_home: "/opt/tomcat/current"

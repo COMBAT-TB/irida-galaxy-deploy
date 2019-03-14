@@ -60,7 +60,7 @@ resource "openstack_networking_floatingip_v2" "floatip_1" {
 }
 
 resource "openstack_compute_instance_v2" "irida" {
-  name            = "irida_instance"
+  name            = "irida_demo"
   image_id        = "${var.image_id}"
   flavor_name     = "${var.flavor}"
   key_pair        = "${openstack_compute_keypair_v2.irida-keypair.name}"
