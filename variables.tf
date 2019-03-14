@@ -19,7 +19,7 @@ variable "pool" {
 }
 
 variable "fqdn" {
-  default = "irida-dev.sanbi.ac.za"
+  default = "irida-demo.sanbi.ac.za"
 }
 
 variable "public_network" {
