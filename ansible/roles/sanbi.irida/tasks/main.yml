@@ -128,17 +128,6 @@
     path: "/etc/irida/plugins"
     state: directory
 
-# install irida pipeline plugins
-- name: install IRIDA Snippy pipeline plugin
-  template:
-    src: irida-snippy-pipeline-plugin-0.1.0-SNAPSHOT.jar.j2
-    dest: /etc/irida/plugins/irida-snippy-pipeline-plugin-0.1.0-SNAPSHOT.jar
-
-- name: install IRIDA SANBI BVC pipeline plugin
-  template:
-    src: sanbi-bvc-plugin-0.1.0-SNAPSHOT.jar.j2
-    dest: /etc/irida/plugins/sanbi-bvc-plugin-0.1.0-SNAPSHOT.jar
-
 # TOMCAT section ---------------------------------------------------------
 - name: copy TOMCAT environmental variables
   template:
