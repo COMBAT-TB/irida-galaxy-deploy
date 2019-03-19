@@ -15,8 +15,8 @@ Environment='JAVA_OPTS=-Djava.awt.headless=true -Djava.security.egd=file:/dev/./
 ExecStart=/opt/tomcat/current/bin/startup.sh
 ExecStop=/opt/tomcat/current/bin/shutdown.sh
 
-User=tomcat
-Group=tomcat
+User={{tomcat_user}}
+Group={{tomcat_group}}
 UMask=0007
 RestartSec=10
 Restart=always

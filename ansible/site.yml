@@ -5,16 +5,30 @@
   become: yes
   pre_tasks:
     - include_role:
-        name: ansible-role-cephfs_client        
+        name: ansible-role-common
+      vars:
+        enable_monitoring: False # Enable/disable all of the following.
+    - include_role:
+        name: ansible-role-cephfs_client
       vars:
         cephfs_client_mapping:
-          - {"src": "/projects/irida-dev", "dst": "/irida-dev", "id": "irida-dev", "key": "AQBccmVcKxj2JBAAAZ5kD/cgucYaWEsZFJ/pEA=="}
-          - {"src": "/projects/irida", "dst": "/irida", "id": "irida", "key": "AQBRcmVckrrBDxAAw3fqpifPXO59NZwvVVWouA=="}
+          - {
+              "src": "/projects/irida-dev",
+              "dst": "/irida-dev",
+              "id": "irida-dev",
+              "key": "AQBccmVcKxj2JBAAAZ5kD/cgucYaWEsZFJ/pEA==",
+            }
+          - {
+              "src": "/projects/irida",
+              "dst": "/irida",
+              "id": "irida",
+              "key": "AQBRcmVckrrBDxAAw3fqpifPXO59NZwvVVWouA==",
+            }
   tasks:
     - name: Create Mysql user and database
       include_role:
-        name: ansible-role-mysql 
-    
+        name: ansible-role-mysql
+
     - name: Install Java8
       include_role:
         name: geerlingguy.java
@@ -22,7 +36,13 @@
     - name: Install Tomcat8
       include_role:
         name: flxpeters.tomcat8
-  
+      vars:
+        tomcat_user: tomcat
+        tomcat_group: galaxyuser
+        tomcat_create_user: False
+
     - name: Install IRIDA
       include_role:
         name: sanbi.irida
+      tags:
+        - irida

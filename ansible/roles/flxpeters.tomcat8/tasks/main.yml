@@ -1,37 +1,38 @@
 ---
-
 - name: Ensure tomcat_java_home is defined
   fail: msg="You must define the tomcat_java_home variable"
   when: tomcat_java_home is not defined
 
 - name: Create tomcat group
   group:
-    name: tomcat
+    name: "{{tomcat_group}}"
     system: true
+  when: tomcat_create_user
 
 - name: Create tomcat user
   user:
-    name: tomcat
-    group: tomcat
+    name: "{{tomcat_user}}"
+    group: "{{tomcat_group}}"
     shell: /bin/false
     home: "{{tomcat_home_path}}"
     system: true
     createhome: true
     move_home: true
+  when: tomcat_create_user
 
 - name: Download and extract Tomcat to tomcat home directory
   unarchive:
     src: "{{tomcat_archive_url}}/{{tomcat_archive_name}}{{tomcat_archive_name_ext}}"
     dest: "{{tomcat_home_path}}"
     remote_src: true
-    group: tomcat
+    group: "{{tomcat_group}}"
     creates: "{{tomcat_archive_install_path}}"
 
 - name: Make the tomcat user the owner of the webapps, work, temp, and logs directories
   file:
     path: "{{tomcat_archive_install_path}}/{{item}}"
-    owner: tomcat
-    group: tomcat
+    owner: "{{tomcat_user}}"
+    group: "{{tomcat_group}}"
     recurse: true
   with_items:
     - webapps

@@ -2,3 +2,6 @@
 	path = ansible/roles/ansible-role-cephfs_client
 	url = git@github.com:SANBI-SA/ansible-role-cephfs_client.git
 	branch = master
+[submodule "ansible/roles/ansible-role-common"]
+	path = ansible/roles/ansible-role-common
+	url = git@github.com:SANBI-SA/ansible-role-common.git

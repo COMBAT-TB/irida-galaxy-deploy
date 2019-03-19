@@ -1,4 +1,4 @@
-apt_list_path: 
+apt_list_path:
   - /var/lib/apt/lists
 packages:
   - perl
@@ -7,7 +7,7 @@ packages:
   - python-pymysql
 gosu_version: "1.10"
 irida_user: ubuntu
-irida_data_dir: /projects/galaxy-dev/irida/data
+irida_data_dir: /irida/data
 irida_home_dir: "/home/ubuntu/"
 irida_version: 0.17.1
 irida_tomcat_home: "/opt/tomcat/current"
@@ -15,3 +15,5 @@ mysql_user: irida_user
 mysql_password: irida_passwd
 mysql_database: irida_db
 tomcat_daemon: tomcat
+galaxy_execution_email: "irida@sanbi.ac.za"
+irida_galaxy_server: "http://galaxy.sanbi.ac.za"

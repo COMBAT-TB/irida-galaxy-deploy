@@ -12,3 +12,6 @@ tomcat_roles:
   - manager-status
 tomcat_users: []
 tomcat_java_home: "/usr/lib/jvm/java-8-openjdk-amd64/jre"
+tomcat_owner: tomcat
+tomcat_group: tomcat
+tomcat_create_user: True
