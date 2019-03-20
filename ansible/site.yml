@@ -16,13 +16,13 @@
               "src": "/projects/irida-dev",
               "dst": "/irida-dev",
               "id": "irida-dev",
-              "key": "AQBccmVcKxj2JBAAAZ5kD/cgucYaWEsZFJ/pEA==",
+              "key": "{{ lookup('env', 'IRIDA_DEV_CEPH_KEY') }}",
             }
           - {
               "src": "/projects/irida",
               "dst": "/irida",
               "id": "irida",
-              "key": "AQBRcmVckrrBDxAAw3fqpifPXO59NZwvVVWouA==",
+              "key": "{{ lookup('env', 'IRIDA_CEPH_KEY') }}",
             }
   tasks:
     - name: Create Mysql user and database

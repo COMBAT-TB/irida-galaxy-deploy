@@ -26,7 +26,7 @@ hibernate.dialect=org.hibernate.dialect.MySQL5Dialect
 
 ## Database location (you may need to use a different string for different
 ## database vendors).
-jdbc.url=jdbc:mysql://localhost:3306/{{all.mysql_database}}
+jdbc.url=jdbc:mysql://{{all.mysql_url}}:{{all.mysql_port}}/{{all.mysql_database}}
 
 ## Connection settings:
 jdbc.username={{all.mysql_user}}
@@ -70,11 +70,11 @@ jdbc.pool.maxIdle=10
 ###############################################################################
 
 # The URL for the Galaxy execution manager
-galaxy.execution.url={{all.irida_galaxy_server}}
+galaxy.execution.url={{all.galaxy_execution_url}}
 
 # The API key of an account to run workflows in Galaxy.
 # This does not have to be an administrator account.
-galaxy.execution.apiKey={{all.galaxy_api_key|default('NOTWORKING')}}
+galaxy.execution.apiKey={{all.galaxy_execution_apikey|default('NOTWORKING')}}
 
 # The email address of an account to run workflows in Galaxy
 galaxy.execution.email={{all.galaxy_execution_email}}
