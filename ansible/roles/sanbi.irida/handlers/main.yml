@@ -1,3 +1,0 @@
----
-- name: restart tomcat
-  service: "name={{ all.tomcat_daemon }} state=restarted sleep=5"
