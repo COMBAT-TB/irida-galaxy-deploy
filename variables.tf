@@ -1,13 +1,13 @@
-variable "image_id" {
-  default = "ceca3226-51cb-4c9a-8a84-db8aedf0b847"
+variable "image_name" {
+  default = "packer-ubuntu-16.04-hwe"
 }
 
-variable "flavor" {
-  default = "m1.medium"
+variable "flavor_name" {
+  default = "ld1.large"
 }
 
 variable "ssh_key_file" {
-  default = "~/.ssh/id_rsa"
+  default = "~/.ssh/vms"
 }
 
 variable "ssh_user_name" {
@@ -19,13 +19,13 @@ variable "pool" {
 }
 
 variable "fqdn" {
-  default = "irida-dev.sanbi.ac.za"
-}
-
-variable "public_network" {
-  default = "public1"
+  default = "iridadev.sanbi.ac.za"
 }
 
 variable "ceph_network" {
   default = "ceph-net"
+}
+
+variable "dns_nameservers" {
+  default = ["192.168.2.75", "192.168.2.8", "8.8.8.8", "8.8.4.4"]
 }

@@ -20,12 +20,19 @@
     move_home: true
   when: tomcat_create_user
 
+- name: Creates tomcat home directory
+  file:
+    path: "{{tomcat_home_path}}"
+    owner: "{{tomcat_user}}"
+    group: "{{tomcat_group}}"
+    state: directory
+
 - name: Download and extract Tomcat to tomcat home directory
   unarchive:
     src: "{{tomcat_archive_url}}/{{tomcat_archive_name}}{{tomcat_archive_name_ext}}"
     dest: "{{tomcat_home_path}}"
     remote_src: true
-    group: "{{tomcat_group}}"
+    # group: "{{tomcat_group}}"
     creates: "{{tomcat_archive_install_path}}"
 
 - name: Make the tomcat user the owner of the webapps, work, temp, and logs directories

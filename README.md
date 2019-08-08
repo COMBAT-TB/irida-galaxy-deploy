@@ -4,6 +4,10 @@ This provides a template for deploying a Irida instance on OpenStack.
 
 **You will need to modify [`variables.tf`](./variables.tf) defaults.**
 
+## Prerequisites
+
+- [Ansible](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html#latest-releases-via-apt-ubuntu) installed on local machine
+
 ## Usage
 
 Download and install [Terraform](https://www.terraform.io/downloads.html):

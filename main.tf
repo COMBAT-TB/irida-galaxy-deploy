@@ -1,25 +1,5 @@
-resource "openstack_networking_secgroup_v2" "secgroup_irida" {
-  name        = "secgroup_irida"
-  description = "IRIDA irida access security group"
-}
-
-resource "openstack_networking_secgroup_v2" "secgroup_gen_irida" {
-  name        = "secgroup_gen_irida"
-  description = "My neutron ssh-access security group"
-}
-
-module "general_rules" {
-  source          = "./modules/network_rules/general"
-  secgroup_id   = "${openstack_networking_secgroup_v2.secgroup_gen_irida.id}"
-}
-
-module "irida_rules" {
-  source          = "./modules/network_rules/irida"
-  secgroup_id = "${openstack_networking_secgroup_v2.secgroup_irida.id}"
-}
-
-resource "openstack_compute_keypair_v2" "irida-keypair" {
-  name       = "irida-keypair"
+resource "openstack_compute_keypair_v2" "irida_keypair" {
+  name       = "irida_keypair"
   public_key = "${file("${var.ssh_key_file}.pub")}"
 }
 
@@ -33,15 +13,7 @@ resource "openstack_networking_subnet_v2" "subnet_1" {
   network_id      = "${openstack_networking_network_v2.irida_network_1.id}"
   cidr            = "10.0.0.0/24"
   ip_version      = 4
-  dns_nameservers = ["192.168.2.75", "192.168.2.8"]
-}
-
-data "openstack_networking_network_v2" "public_network" {
-  name = "${var.public_network}"
-}
-
-data "openstack_networking_network_v2" "ceph_network" {
-  name = "${var.ceph_network}"
+  dns_nameservers = "${var.dns_nameservers}"
 }
 
 resource "openstack_networking_router_v2" "router_1" {
@@ -61,15 +33,16 @@ resource "openstack_networking_floatingip_v2" "floatip_1" {
 
 resource "openstack_compute_instance_v2" "irida" {
   name            = "irida_instance"
-  image_id        = "${var.image_id}"
-  flavor_name     = "${var.flavor}"
-  key_pair        = "${openstack_compute_keypair_v2.irida-keypair.name}"
-  security_groups = ["default", "secgroup_irida", "secgroup_gen_irida"]
+  image_name      = "${var.image_name}"
+  flavor_name     = "${var.flavor_name}"
+  key_pair        = "${openstack_compute_keypair_v2.irida_keypair.name}"
+  security_groups = ["default", "irida_secgroup", "general_secgroup"]
   user_data       = "#cloud-config\nhostname: ${var.fqdn} \nfqdn: ${var.fqdn}"
-  
+
   metadata {
     ansible_groups = "irida"
   }
+
   network {
     uuid = "${openstack_networking_network_v2.irida_network_1.id}"
   }
@@ -87,9 +60,17 @@ resource "openstack_compute_floatingip_associate_v2" "irida_fip1" {
 
   provisioner "remote-exec" {
     inline = [
-      "sudo apt-get -y update; sleep 5",
-      "sudo apt-get install -y python",      
+      "sudo apt-get -y update",
+      "sudo apt-get install -y python python-pip",
     ]
   }
 
+  # https://docs.ansible.com/ansible/latest/user_guide/intro_patterns.html
+  provisioner "local-exec" {
+    command = "printf '[devservers]\n${openstack_networking_floatingip_v2.floatip_1.address}\n' > hosts"
+  }
+
+  provisioner "local-exec" {
+    command = "ansible-playbook -e ansible_ssh_private_key_file=${var.ssh_key_file} -u ubuntu -i hosts ansible/site.yml"
+  }
 }

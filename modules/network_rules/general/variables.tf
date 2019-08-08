@@ -1,3 +1,3 @@
 variable "secgroup_id" {
-    
+
 }

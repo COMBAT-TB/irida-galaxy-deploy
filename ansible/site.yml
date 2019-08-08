@@ -4,10 +4,10 @@
   tags: irida-dev
   become: yes
   pre_tasks:
-    - include_role:
-        name: ansible-role-common
-      vars:
-        enable_monitoring: False # Enable/disable all of the following.
+    # - include_role:
+    #     name: ansible-role-common
+    #   vars:
+    #     enable_monitoring: False # Enable/disable all of the following.
     - include_role:
         name: ansible-role-cephfs_client
       vars:
@@ -38,8 +38,8 @@
         name: flxpeters.tomcat8
       vars:
         tomcat_user: tomcat
-        tomcat_group: galaxyuser
-        tomcat_create_user: False
+        tomcat_group: root
+        tomcat_create_user: True
 
     - name: Install IRIDA
       include_role:

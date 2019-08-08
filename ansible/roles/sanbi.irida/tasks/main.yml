@@ -1,88 +1,89 @@
 - name: Include variables.
   include_vars:
-        file: "vars/all.yml"
-        name: all
+          file: "vars/all.yml"
+          name: all
 
 - name: Run the equivalent of "apt-get update" as a separate step
   apt:
-        update_cache: yes
+          update_cache: yes
 
-- name: Upgrade all packages to the latest version
-  apt:
-        name: "*"
-        state: latest
-        force_apt_get: yes
+# - name: Upgrade all packages to the latest version
+#   apt:
+#           name: "*"
+#           state: latest
+#           force_apt_get: yes
 
 - name: Install a list of packages
   apt:
-        name: "{{ all.packages }}"
-        install_recommends: no
+          name: "{{ all.packages }}"
+          install_recommends: no
 
 - name: Creates irida home dir
   file:
-        path: /etc/irida
-        state: directory
+          path: /etc/irida
+          state: directory
 
 - name: Clean the apt list PATH
   file:
-        state: absent
-        path: "{{ all.apt_list_path }}"
+          state: absent
+          path: "{{ all.apt_list_path }}"
 
 - name: Creates Irida data dir
   file:
-        path: "{{all.irida_data_dir}}"
-        state: directory
+          path: "{{all.irida_data_dir}}"
+          state: directory
 
 - name: Download IRIDA war file
   get_url:
-        url: https://github.com/SANBI-SA/irida/releases/download/sanbi-bvc-test/irida-0.17.1.war
-        dest: "{{ all.irida_tomcat_home }}/webapps/irida.war"
+          # url: https://github.com/SANBI-SA/irida/releases/download/sanbi-bvc-test/irida-0.17.1.war
+          url: https://github.com/phac-nml/irida/releases/download/19.01.2/irida-19.01.2.war
+          dest: "{{ all.irida_tomcat_home }}/webapps/irida.war"
 
 - name: Creates IRIDA Data subdirectories
   file:
-        path: "{{ item }}"
-        state: directory
+          path: "{{ item }}"
+          state: directory
   with_items:
-        - "{{all.irida_data_dir}}/sequence"
-        - "{{all.irida_data_dir}}/reference"
-        - "{{all.irida_data_dir}}/output"
+          - "{{all.irida_data_dir}}/sequence"
+          - "{{all.irida_data_dir}}/reference"
+          - "{{all.irida_data_dir}}/output"
 - debug:
-        var: gxadminuser.stdout
+          var: gxadminuser.stdout
 
 - name: Setting variables for JAVA_OPTS
   shell: "echo $JAVA_OPTS"
   environment:
-        JAVA_OPTS: -Dspring.profiles.active=prod -Ddandelion.profile.active=prod
+          JAVA_OPTS: -Dspring.profiles.active=prod -Ddandelion.profile.active=prod
   register: javaopts
 - debug:
-        var: javaopts.stdout
+          var: javaopts.stdout
 
 - name: Setting variables for GALAXY admin user
   shell: "echo $GALAXY_ADMIN_USER"
   environment:
-        GALAXY_ADMIN_USER: "{{all.galaxy_execution_email}}"
+          GALAXY_ADMIN_USER: "{{all.galaxy_execution_email}}"
   register: gxadminuser
 - debug:
-        var: gxadminuser.stdout
+          var: gxadminuser.stdout
 
 - name: Setting variables for IRIDA StartUp
   shell: "echo $IRIDA_VERSION"
   environment:
-        IRIDA_VERSION: "{{all.irida_version}}"
-        IRIDA_DATA_DIR: "{{all.irida_data_dir}}"
+          IRIDA_VERSION: "{{all.irida_version}}"
+          IRIDA_DATA_DIR: "{{all.irida_data_dir}}"
   register: irida_startup
 - debug:
-        var: irida_startup.stdout
+          var: irida_startup.stdout
 
 - name: install WEB configuration
   template:
-        src: web.conf.j2
-        dest: /etc/irida/web.conf
+          src: web.conf.j2
+          dest: /etc/irida/web.conf
 
 - name: install IRIDA configuration
   template:
-        src: irida.conf.j2
-        dest: /etc/irida/irida.conf
+          src: irida.conf.j2
+          dest: /etc/irida/irida.conf
 
 # MYSQL section --------------------------------------------------------
 # - name: Irida mysql IRIDA configuration
@@ -105,16 +106,16 @@
 # create user and grant priviledges
 - name: Create user and grant priviledges
   mysql_user:
-        name: "{{all.mysql_user}}"
-        password: "{{all.mysql_password}}"
-        priv: "*.*:ALL"
-        state: present
+          name: "{{all.mysql_user}}"
+          password: "{{all.mysql_password}}"
+          priv: "*.*:ALL"
+          state: present
 
 # create a database
 - name: Create a new database with name 'irida_db'
   mysql_db:
-        name: "{{all.mysql_database}}"
-        state: present
+          name: "{{all.mysql_database}}"
+          state: present
 
 # Set sql_mode variable for liquibase to work -- report issue to irida
 # - mysql_variables:
@@ -124,11 +125,11 @@
 # TOMCAT section ---------------------------------------------------------
 - name: copy TOMCAT environmental variables
   template:
-        src: setenv.sh.j2
-        dest: "{{ all.irida_tomcat_home }}/bin/setenv.sh"
-        owner: root
-        group: tomcat
-        mode: 775
+          src: setenv.sh.j2
+          dest: "{{ all.irida_tomcat_home }}/bin/setenv.sh"
+          owner: root
+          group: tomcat
+          mode: 775
 # - name: install tomcat startup script
 #   template:
 #       src: tomcat.j2

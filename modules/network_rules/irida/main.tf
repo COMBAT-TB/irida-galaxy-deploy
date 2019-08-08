@@ -98,7 +98,6 @@ resource "openstack_networking_secgroup_rule_v2" "irida_dns_rule_2" {
   security_group_id = "${var.secgroup_id}"
 }
 
-
 resource "openstack_networking_secgroup_rule_v2" "irida_ceph_rule" {
   direction         = "ingress"
   ethertype         = "IPv4"
