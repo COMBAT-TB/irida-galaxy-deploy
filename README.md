@@ -1,6 +1,8 @@
-# Docker-IRIDA-Galaxy
+# docker-irida-galaxy 
 
-:whale: A Dockerized IRIDA-Galaxy installation configured to be deployed on a single instance/VM.
+ A Dockerized IRIDA-Galaxy installation configured to be deployed on a single instance/VM.
+
+:whale: [![Docker Repository on Quay](https://quay.io/repository/combat-tb/irida/status "Docker Repository on Quay")](https://quay.io/repository/combat-tb/irida) [![Docker Repository on Quay](https://quay.io/repository/combat-tb/irida/status "Docker Repository on Quay")](https://quay.io/repository/combat-tb/irida)
 
 ## Up and running
 
@@ -12,7 +14,7 @@
 
 ```sh
 $ ssh USER@REMOTE.SERVER
-$ git clone https://github.com/thobalose/irida-galaxy-deploy.git
+$ git clone https://github.com/COMBAT-TB/irida-galaxy-deploy.git
 $ cd irida-galaxy-deploy
 $ docker-compose up -d
 ...
