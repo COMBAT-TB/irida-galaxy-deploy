@@ -1,79 +1,35 @@
-# Deploying a IRIDA instance on OpenStack using Terraform
+# Docker-IRIDA-Galaxy
 
-This provides a template for deploying a Irida instance on OpenStack.
+:whale: A Dockerized IRIDA-Galaxy installation configured to be deployed on a single instance/VM.
 
-**You will need to modify [`variables.tf`](./variables.tf) defaults.**
+## Up and running
 
-## Usage
+### Using docker-compose
 
-Download and install [Terraform](https://www.terraform.io/downloads.html):
+**Assumption :**
 
-```sh
-$ wget -P /tmp/ https://releases.hashicorp.com/terraform/0.11.8/terraform_0.11.8_linux_amd64.zip
---
-$ unzip /tmp/terraform_0.11.8_linux_amd64.zip
-$ sudo mv terraform /usr/local/bin/
-$ terraform --version
-```
-
-Log in to the OpenStack dashboard, choose the project for which you want to download the OpenStack RC file, and run the following commands:
+- You have [`docker`](https://docs.docker.com/install/) and [`docker-compose`](https://docs.docker.com/compose/) installed on destination instance/VM.
 
 ```sh
-$ source ~/Downloads/PROJECT-openrc.sh
-Please enter your OpenStack Password for project PROJECT as user username:
-```
-
-Initialize Terraform:
-
-- Initialize a new or existing Terraform working directory by creating
-  initial files, loading any remote state, downloading modules, etc.
-
-```sh
-$ terraform init
-Initializing...
-```
-
-Generate an execution Plan:
-
-- This execution plan can be reviewed prior to running apply to get a sense for what Terraform will do
-
-```sh
-$ terraform plan
+$ ssh USER@REMOTE.SERVER
+$ git clone https://github.com/thobalose/irida-galaxy-deploy.git
+$ cd irida-galaxy-deploy
+$ docker-compose up -d
 ...
 ```
 
-Install the [OpenStack CLI client](https://docs.openstack.org/newton/user-guide/common/cli-install-openstack-command-line-clients.html) and run the following:
+This will take a couple of minutes.. :watch: :coffee:
 
-_To get a list of usable floating IP pools run the command below and take note of the name:_
+Upon completion, point your browser to:
 
-```
-$ openstack network list --external
-+--------------------------------------+----------+--------------------------------------+
-| ID                                   | Name     | Subnets                              |
-+--------------------------------------+----------+--------------------------------------+
-| 1352e2cb-4bb1-44e8-a3fe-8f08ec73c2d5 | public1  | 165ab7e5-a9e4-414c-8cac-88cc127453f3 |
-+--------------------------------------+----------+--------------------------------------+
+- [REMOTE.SERVER:8080/irida/](http://REMOTE.SERVER:8080/irida/) to access IRIDA
+- [REMOTE.SERVER:9090](http://REMOTE.SERVER:9090/) to access Galaxy
 
-```
+The default administrator **username and password** are:
 
-_To get a list of images available for use run and take note of the name:_
+- `admin:password1`for IRIDA
+- `admin:admin` for Galaxy
 
-```
-$ openstack image list
-```
+### Deploying to OpenStack
 
-Modify [`variables.tf`](./variables.tf) using the above.
-
-Afterwards apply changes with:
-
-```
-$ terraform apply -var 'pool=public1'
-...
-Outputs:
-
-address = FLOATING-IP
-```
-
-Upon completion, the above command will output the instances floating IP address.
-
-You will then point your browser to [http://FLOATING-IP:8080](http://FLOATING-IP:8080) to access the Irida database web interface!
+**Please see [README](openstack-terraform/README.md) for Terraform setup and take note of the FLOATING-IP.**
