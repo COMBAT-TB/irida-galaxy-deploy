@@ -1,8 +1,8 @@
-# docker-irida-galaxy 
+# docker-irida-galaxy
 
  A Dockerized IRIDA-Galaxy installation configured to be deployed on a single instance/VM.
 
-:whale: [![Docker Repository on Quay](https://quay.io/repository/combat-tb/irida/status "Docker Repository on Quay")](https://quay.io/repository/combat-tb/irida) [![Docker Repository on Quay](https://quay.io/repository/combat-tb/irida/status "Docker Repository on Quay")](https://quay.io/repository/combat-tb/irida)
+:whale: [![Docker Repository on Quay](https://quay.io/repository/combat-tb/irida/status "Docker Repository on Quay")](https://quay.io/repository/combat-tb/irida) :whale: [![Docker Repository on Quay](https://quay.io/repository/combat-tb/irida/status "Docker Repository on Quay")](https://quay.io/repository/combat-tb/irida)
 
 ## Up and running
 
@@ -34,4 +34,4 @@ The default administrator **username and password** are:
 
 ### Deploying to OpenStack
 
-**Please see [README](openstack-terraform/README.md) for Terraform setup and take note of the FLOATING-IP.**
+*Please see [openstack-terraform](openstack-terraform/) to deploy to OpenStack using Terraform.*

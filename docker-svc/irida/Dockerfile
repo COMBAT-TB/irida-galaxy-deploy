@@ -25,8 +25,8 @@ RUN set -ex; \
 ENV IRIDA_DATA_DIR /data
 
 RUN mkdir -p $IRIDA_DATA_DIR/irida; \
-	wget https://irida.corefacility.ca/downloads/webapp/irida-latest.war; \
-	mv irida-latest.war /usr/local/tomcat/webapps/irida.war; \
+	wget https://github.com/phac-nml/irida/releases/download/19.05.1/irida-19.05.1.war; \
+	mv irida-19.05.1.war /usr/local/tomcat/webapps/irida.war; \
 	bash -c 'mkdir ${IRIDA_DATA_DIR}/irida/sequence'; \
 	bash -c 'mkdir ${IRIDA_DATA_DIR}/irida/reference'; \
 	bash -c 'mkdir ${IRIDA_DATA_DIR}/irida/output'
@@ -34,7 +34,7 @@ RUN mkdir -p $IRIDA_DATA_DIR/irida; \
 VOLUME $IRIDA_DATA_DIR
 
 ENV JAVA_OPTS="-Dspring.profiles.active=prod -Ddandelion.profile.active=prod" \
-	GALAXY_ADMIN_USER="thoba@sanbi.ac.za"
+	GALAXY_ADMIN_USER="admin@galaxy.org"
 
 COPY irida.conf web.conf /etc/irida/
 COPY wait-for-it.sh .

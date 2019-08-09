@@ -1,4 +1,4 @@
-# Deploying [IRIDA](https://www.irida.ca/) and [Galaxy](https://galaxyproject.org/) on a single OpenStack instance using Terraform
+# Deploying IRIDA and Galaxy on a single OpenStack instance using Terraform
 
 This provides a template for deploying [IRIDA](https://www.irida.ca/) and [Galaxy](https://galaxyproject.org/) on a single OpenStack instance using Terraform.
 
@@ -44,7 +44,7 @@ $ terraform plan
 
 Install the [OpenStack CLI client](https://docs.openstack.org/newton/user-guide/common/cli-install-openstack-command-line-clients.html) and run the following:
 
-_To get a list of usable floating IP pools run the command below and take note of the name:_
+_To get a list of usable floating IP pools run the command below:_
 
 ```sh
 $ openstack network list --external
@@ -56,14 +56,28 @@ $ openstack network list --external
 
 ```
 
-_To get a list of images available for use run and take note of the name:_
+_To get a list of images available for use run the following command:_
 
 ```sh
 $ openstack image list
 ...
 ```
 
-Modify [`variables.tf`](./variables.tf) using the above.
+_To get a list of flavors available for use run the following command:_
+
+```sh
+$ openstack flavor list
+...
+```
+
+_To get a list of available security groups run the following command:_
+
+```sh
+$ openstack security group list
+...
+```
+
+**Modify [`variables.tf`](./variables.tf) using the above**.
 
 Afterwards apply changes with:
 
@@ -76,4 +90,12 @@ This will take a couple of minutes... :watch: :coffee: -
 
 Upon completion, the above command will output the instances floating IP address, which can also be viewed in `instance_ip.txt`.
 
-You will then point your browser to [http://FLOATING-IP:8080/irida/](http://FLOATING-IP:8080/irida/) to access IRIDA.
+Point your browser to:
+
+- [FLOATING-IP:8080/irida/](http://FLOATING-IP:8080/irida/) to access IRIDA
+- [FLOATING-IP:9090](http://FLOATING-IP:9090/) to access Galaxy
+
+The default administrator **username and password** are:
+
+- `admin:password1`for IRIDA
+- `admin:admin` for Galaxy
