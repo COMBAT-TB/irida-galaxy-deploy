@@ -22,14 +22,12 @@ RUN set -ex; \
 	chmod +x /usr/local/bin/gosu; \
 	gosu nobody true;
 
-ENV IRIDA_DATA_DIR /data
+ENV IRIDA_DATA_DIR /data/irida
 
-RUN mkdir -p $IRIDA_DATA_DIR/irida; \
+RUN mkdir -p $IRIDA_DATA_DIR; \
 	wget https://github.com/phac-nml/irida/releases/download/19.05.1/irida-19.05.1.war; \
 	mv irida-19.05.1.war /usr/local/tomcat/webapps/irida.war; \
-	bash -c 'mkdir ${IRIDA_DATA_DIR}/irida/sequence'; \
-	bash -c 'mkdir ${IRIDA_DATA_DIR}/irida/reference'; \
-	bash -c 'mkdir ${IRIDA_DATA_DIR}/irida/output'
+	bash -c 'mkdir -p ${IRIDA_DATA_DIR}/{sequence,reference,output}'
 
 VOLUME $IRIDA_DATA_DIR
 
