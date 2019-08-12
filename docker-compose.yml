@@ -1,14 +1,14 @@
 version: '3.7'
 
 services:
-  nginx:
-    restart: always
-    build:
-      context: ./docker-svc/nginx/
-      dockerfile: Dockerfile
-    container_name: nginx
-    ports:
-      - "80:80"
+  # nginx:
+  #   restart: always
+  #   build:
+  #     context: ./docker-svc/nginx/
+  #     dockerfile: Dockerfile
+  #   container_name: nginx
+  #   ports:
+  #     - "80:80"
 
   irida_web:
     restart: always

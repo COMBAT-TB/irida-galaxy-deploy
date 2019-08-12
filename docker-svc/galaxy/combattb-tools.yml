@@ -1,22 +1,29 @@
 ---
 # https://github.com/galaxyproject/ansible-galaxy-tools/blob/master/files/tool_list.yaml.sample
 tools:
-# - name: "tb_variant_filter"
-#   owner: "sanbi-uwc"
-#   tool_shed_url: "testtoolshed.g2.bx.psu.edu"
-#   revisions:
-#   - "5f0081205b75"
-#   tool_panel_section_label: "COMBAT-TB"
+- name: "tb_variant_filter"
+  owner: "sanbi-uwc"
+  tool_shed_url: "testtoolshed.g2.bx.psu.edu"
+  revisions:
+  - "5f0081205b75"
+  tool_panel_section_label: "COMBAT-TB"
 - name: "tbvcfreport"
   owner: "sanbi-uwc"
   tool_shed_url: "testtoolshed.g2.bx.psu.edu"
   revisions:
   - "955c0dbbe938"
   tool_panel_section_label: "COMBAT-TB"
-# - name: "snippy"
-#   owner: "iuc"
-#   tool_shed_url: "toolshed.g2.bx.psu.edu"
-#   revisions:
-#   - "9bccc8404a3c"
-#   tool_panel_section_label: "COMBAT-TB"
-#   install_tool_dependencies: true
+- name: "snippy"
+  owner: "iuc"
+  tool_shed_url: "toolshed.g2.bx.psu.edu"
+  revisions:
+  - "9bccc8404a3c"
+  tool_panel_section_label: "COMBAT-TB"
+  install_tool_dependencies: true
+- name: "snpeff"
+  owner: "iuc"
+  tool_shed_url: "toolshed.g2.bx.psu.edu"
+  revisions:
+  - "8f92c2b26e6d"
+  tool_panel_section_label: "COMBAT-TB"
+  install_tool_dependencies: true
