@@ -14,6 +14,9 @@ RUN sed -i -e 's/# *admin_users: .*/admin_users: admin@galaxy.org,thoba@sanbi.ac
 	sed -i -e 's/# *conda_ensure_channels: .*/conda_ensure_channels: thoba,iuc,conda-forge,bioconda,defaults/' /etc/galaxy/galaxy.yml
 
 # Adding the tool definitions to the container
-ADD combattb-tools.yml $GALAXY_ROOT/combattb-tools.yml
+COPY combattb-tools.yml $GALAXY_ROOT/
 # Install deepTools
 RUN install-tools $GALAXY_ROOT/combattb-tools.yml
+
+# Container Style
+COPY welcome_image.png welcome.html $GALAXY_CONFIG_DIR/web/

@@ -1,14 +1,14 @@
 version: '3.7'
 
 services:
-  # nginx:
-  #   restart: always
-  #   build:
-  #     context: ./docker-svc/nginx/
-  #     dockerfile: Dockerfile
-  #   container_name: nginx
-  #   ports:
-  #     - "80:80"
+  nginx:
+    restart: always
+    build:
+      context: ./docker-svc/nginx/
+      dockerfile: Dockerfile
+    container_name: nginx
+    ports:
+      - "80:80"
 
   irida_web:
     restart: always
@@ -21,7 +21,8 @@ services:
     ports:
       - "8080:8080"
     volumes:
-      - irida_web_data:/data/irida  
+      # - irida_web_data:/data/irida 
+      - /data/irida:/data/irida
 
   irida_mysql:
     restart: always
@@ -34,7 +35,8 @@ services:
       MYSQL_PASSWORD: irida_passwd
     command: mysqld --sql_mode=""
     volumes:
-      - irida_mysql_data:/var/lib/mysql
+      # - irida_mysql_data:/var/lib/mysql
+      - /data/irida_mysql_data:/var/lib/mysql
     ports: 
       - "3306:3306"
     
@@ -52,8 +54,10 @@ services:
       # GALAXY_CONFIG_NGINX_UPLOAD_PATH: /galaxy/_upload
       GALAXY_LOGGING: full
     volumes:
-      - irida_web_data:/data/irida
-      - irida_galaxy_data:/export
+      # - irida_web_data:/data/irida
+      # - irida_galaxy_data:/export
+      - /data/irida:/data/irida
+      - /data/irida_galaxy_data:/export
     ports: 
       - "9090:80"
       - "21:21"
@@ -67,8 +71,8 @@ networks:
     driver_opts:
       com.docker.network.driver.mtu: 1450
 
-volumes:
-  irida_mysql_data:
-  irida_web_data:
-  irida_galaxy_data:
+# volumes:
+#   irida_mysql_data:
+#   irida_web_data:
+#   irida_galaxy_data:
 
