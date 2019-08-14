@@ -19,4 +19,4 @@ COPY combattb-tools.yml $GALAXY_ROOT/
 RUN install-tools $GALAXY_ROOT/combattb-tools.yml
 
 # Container Style
-COPY welcome_image.png welcome.html $GALAXY_CONFIG_DIR/web/
+COPY *.png welcome.html $GALAXY_CONFIG_DIR/web/
