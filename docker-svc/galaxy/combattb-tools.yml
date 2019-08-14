@@ -13,6 +13,12 @@ tools:
   revisions:
   - "955c0dbbe938"
   tool_panel_section_label: "COMBAT-TB"
+- name: "text_processing"
+  owner: "bgruening"
+  tool_shed_url: "toolshed.g2.bx.psu.edu"
+  revisions:
+  - "0a8c6b61f0f4"
+  tool_panel_section_label: "Text Manipulation"
 - name: "snippy"
   owner: "iuc"
   tool_shed_url: "toolshed.g2.bx.psu.edu"

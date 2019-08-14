@@ -6,7 +6,7 @@ RUN apt-get update; \
 	apt-get install -f ; \
 	apt-get install perl fastqc -y; \
 	rm -rf /var/lib/apt/lists/*; \
-	mkdir /etc/irida/
+	mkdir -p /etc/irida/plugins
 
 ENV GOSU_VERSION 1.10
 RUN set -ex; \
@@ -22,12 +22,15 @@ RUN set -ex; \
 	chmod +x /usr/local/bin/gosu; \
 	gosu nobody true;
 
-ENV IRIDA_DATA_DIR /data/irida
+ENV COMBAT_TB="https://github.com/COMBAT-TB" \
+	IRIDA_DATA_DIR=/data/irida
 
 RUN mkdir -p $IRIDA_DATA_DIR; \
 	wget https://github.com/phac-nml/irida/releases/download/19.05.1/irida-19.05.1.war; \
 	mv irida-19.05.1.war /usr/local/tomcat/webapps/irida.war; \
 	bash -c 'mkdir -p ${IRIDA_DATA_DIR}/{sequence,reference,output}'
+
+RUN wget "${COMBAT_TB}/irida-pipeline-plugins/releases/download/0.1.0/tb-vcf-report-pipeline-plugin-0.1.0-SNAPSHOT.jar" -P /etc/irida/plugins/
 
 VOLUME $IRIDA_DATA_DIR
 
