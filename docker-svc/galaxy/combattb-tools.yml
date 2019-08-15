@@ -13,6 +13,12 @@ tools:
   revisions:
   - "955c0dbbe938"
   tool_panel_section_label: "COMBAT-TB"
+- name: "trimmomatic"
+  owner: "pjbriggs"
+  tool_shed_url: "toolshed.g2.bx.psu.edu"
+  revisions:
+  - "898b67846b47"
+  tool_panel_section_label: "COMBAT-TB"
 - name: "text_processing"
   owner: "bgruening"
   tool_shed_url: "toolshed.g2.bx.psu.edu"
@@ -25,11 +31,9 @@ tools:
   revisions:
   - "9bccc8404a3c"
   tool_panel_section_label: "COMBAT-TB"
-  install_tool_dependencies: true
 - name: "snpeff"
   owner: "iuc"
   tool_shed_url: "toolshed.g2.bx.psu.edu"
   revisions:
   - "8f92c2b26e6d"
   tool_panel_section_label: "COMBAT-TB"
-  install_tool_dependencies: true
