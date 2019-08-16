@@ -61,8 +61,12 @@ resource "openstack_compute_floatingip_associate_v2" "irida_galaxy" {
   provisioner "remote-exec" {
     inline = [
       "sudo apt-get -y update",
-      # Remove older docker versions if installed 
-      "sudo apt-get remove docker docker-engine docker.io containerd runc",
+      "sudo mkfs.ext4 /dev/vdc",
+      "sudo mkdir /data",
+      "sudo mount /dev/vdc /data",
+      "sudo df -h /data",
+      "sudo mkdir -p /data/irida/{sequence,reference,output}",
+      "sudo ls /data/irida",
     ]
   }
 
