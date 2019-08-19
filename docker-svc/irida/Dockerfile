@@ -23,7 +23,9 @@ RUN set -ex; \
 	gosu nobody true;
 
 ENV COMBAT_TB="https://github.com/COMBAT-TB" \
-	IRIDA_DATA_DIR=/data/irida
+	IRIDA_DATA_DIR=/data/irida \
+	JAVA_OPTS="-Dspring.profiles.active=prod -Ddandelion.profile.active=prod" \
+	GALAXY_ADMIN_USER="admin@galaxy.org"
 
 RUN mkdir -p $IRIDA_DATA_DIR; \
 	wget https://github.com/phac-nml/irida/releases/download/19.05.1/irida-19.05.1.war; \
@@ -34,12 +36,8 @@ RUN wget "${COMBAT_TB}/irida-pipeline-plugins/releases/download/0.1.0/tb-vcf-rep
 
 VOLUME $IRIDA_DATA_DIR
 
-ENV JAVA_OPTS="-Dspring.profiles.active=prod -Ddandelion.profile.active=prod" \
-	GALAXY_ADMIN_USER="admin@galaxy.org"
-
-COPY irida.conf web.conf /etc/irida/
-COPY wait-for-it.sh .
-COPY docker-entrypoint.sh .
+COPY *.conf /etc/irida/
+COPY *.sh ./
 
 ENTRYPOINT ["./docker-entrypoint.sh"]
 
