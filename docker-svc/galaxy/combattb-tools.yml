@@ -1,39 +1,51 @@
 ---
 # https://github.com/galaxyproject/ansible-galaxy-tools/blob/master/files/tool_list.yaml.sample
 tools:
-- name: "tb_variant_filter"
-  owner: "sanbi-uwc"
-  tool_shed_url: "testtoolshed.g2.bx.psu.edu"
-  revisions:
-  - "5f0081205b75"
-  tool_panel_section_label: "COMBAT-TB"
-- name: "tbvcfreport"
-  owner: "sanbi-uwc"
-  tool_shed_url: "testtoolshed.g2.bx.psu.edu"
-  revisions:
-  - "955c0dbbe938"
-  tool_panel_section_label: "COMBAT-TB"
-- name: "trimmomatic"
-  owner: "pjbriggs"
-  tool_shed_url: "toolshed.g2.bx.psu.edu"
-  revisions:
-  - "898b67846b47"
-  tool_panel_section_label: "COMBAT-TB"
-- name: "text_processing"
-  owner: "bgruening"
-  tool_shed_url: "toolshed.g2.bx.psu.edu"
-  revisions:
-  - "0a8c6b61f0f4"
-  tool_panel_section_label: "Text Manipulation"
-- name: "snippy"
-  owner: "iuc"
-  tool_shed_url: "toolshed.g2.bx.psu.edu"
-  revisions:
-  - "9bccc8404a3c"
-  tool_panel_section_label: "COMBAT-TB"
-- name: "snpeff"
-  owner: "iuc"
-  tool_shed_url: "toolshed.g2.bx.psu.edu"
-  revisions:
-  - "8f92c2b26e6d"
-  tool_panel_section_label: "COMBAT-TB"
+  - name: "tb_variant_filter"
+    owner: "sanbi-uwc"
+    tool_shed_url: "testtoolshed.g2.bx.psu.edu"
+    revisions:
+      - "5f0081205b75"
+    tool_panel_section_label: "COMBAT-TB"
+  - name: "tbvcfreport"
+    owner: "iuc"
+    tool_shed_url: "toolshed.g2.bx.psu.edu"
+    revisions:
+      - "02d81b994ef5"
+    tool_panel_section_label: "COMBAT-TB"
+  - name: "trimmomatic"
+    owner: "pjbriggs"
+    tool_shed_url: "toolshed.g2.bx.psu.edu"
+    revisions:
+      - "898b67846b47"
+    tool_panel_section_label: "COMBAT-TB"
+  - name: "fastp"
+    owner: "iuc"
+    tool_shed_url: "toolshed.g2.bx.psu.edu"
+    revisions:
+      - "1d8fe9bc4cb0"
+    tool_panel_section_label: "COMBAT-TB"
+  - name: "text_processing"
+    owner: "bgruening"
+    tool_shed_url: "toolshed.g2.bx.psu.edu"
+    revisions:
+      - "0a8c6b61f0f4"
+    tool_panel_section_label: "Text Manipulation"
+  - name: "snippy"
+    owner: "iuc"
+    tool_shed_url: "toolshed.g2.bx.psu.edu"
+    revisions:
+      - "9bccc8404a3c"
+    tool_panel_section_label: "COMBAT-TB"
+  - name: "snpeff"
+    owner: "iuc"
+    tool_shed_url: "toolshed.g2.bx.psu.edu"
+    revisions:
+      - "8f92c2b26e6d"
+    tool_panel_section_label: "COMBAT-TB"
+  - name: "tbprofiler"
+    owner: "iuc"
+    tool_shed_url: "toolshed.g2.bx.psu.edu"
+    revisions:
+      - "19793eecc9f0"
+    tool_panel_section_label: "COMBAT-TB"

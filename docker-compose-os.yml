@@ -1,3 +1,4 @@
+#For OpenStack
 version: "3.7"
 
 services:
@@ -21,7 +22,8 @@ services:
     ports:
       - "8080:8080"
     volumes:
-      - irida_web_data:/data/irida
+      # - irida_web_data:/data/irida
+      - /data/irida:/data/irida
 
   irida_mysql:
     restart: always
@@ -34,7 +36,8 @@ services:
       MYSQL_PASSWORD: irida_passwd
     command: mysqld --sql_mode=""
     volumes:
-      - irida_mysql_data:/var/lib/mysql
+      # - irida_mysql_data:/var/lib/mysql
+      - /data/irida_mysql_data:/var/lib/mysql
     ports:
       - "3306:3306"
 
@@ -52,14 +55,24 @@ services:
       # GALAXY_CONFIG_NGINX_UPLOAD_PATH: /galaxy/_upload
       GALAXY_LOGGING: full
     volumes:
-      - irida_web_data:/data/irida
-      - irida_galaxy_data:/export
+      # - irida_web_data:/data/irida
+      # - irida_galaxy_data:/export
+      - /data/irida:/data/irida
+      - /data/irida_galaxy_data:/export
     ports:
       - "9090:80"
       - "21:21"
       - "8800:8800"
       - "9002:9002"
-volumes:
-  irida_mysql_data:
-  irida_web_data:
-  irida_galaxy_data:
+
+# https://docs.openstack.org/project-deploy-guide/kolla-ansible/ocata/quickstart.html#build-container-images
+networks:
+  default:
+    driver: bridge
+    driver_opts:
+      com.docker.network.driver.mtu: 1450
+# volumes:
+#   irida_mysql_data:
+#   irida_web_data:
+#   irida_galaxy_data:
+
