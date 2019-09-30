@@ -45,7 +45,7 @@ services:
       dockerfile: Dockerfile
     container_name: irida_galaxy
     environment:
-      GALAXY_CONFIG_BRAND: "COMBAT-TB IRIDA"
+      GALAXY_CONFIG_BRAND: "COMBAT-TB Workbench"
       # PROXY_PREFIX: /galaxy
       # GALAXY_CONFIG_NGINX_X_ACCEL_REDIRECT_BASE: /galaxy/_x_accel_redirect
       # GALAXY_CONFIG_NGINX_X_ARCHIVE_FILES_BASE: /galaxy/_x_accel_redirect

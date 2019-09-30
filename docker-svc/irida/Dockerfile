@@ -22,17 +22,19 @@ RUN set -ex; \
 	chmod +x /usr/local/bin/gosu; \
 	gosu nobody true;
 
-ENV COMBAT_TB="https://github.com/COMBAT-TB" \
+ENV COMBAT_TB_PLUGINS="https://github.com/COMBAT-TB/irida-pipeline-plugins" \
+	IRIDA_DOWNLOAD_URL="https://github.com/phac-nml/irida/releases/download" \
+	IRIDA_VERSION="19.09" \
 	IRIDA_DATA_DIR=/data/irida \
 	JAVA_OPTS="-Dspring.profiles.active=prod -Ddandelion.profile.active=prod" \
 	GALAXY_ADMIN_USER="admin@galaxy.org"
 
 RUN mkdir -p $IRIDA_DATA_DIR; \
-	wget https://github.com/phac-nml/irida/releases/download/19.05.1/irida-19.05.1.war; \
-	mv irida-19.05.1.war /usr/local/tomcat/webapps/irida.war; \
+	wget "${IRIDA_DOWNLOAD_URL}/${IRIDA_VERSION}/irida-${IRIDA_VERSION}.war"; \
+	mv irida-${IRIDA_VERSION}.war /usr/local/tomcat/webapps/irida.war; \
 	bash -c 'mkdir -p ${IRIDA_DATA_DIR}/{sequence,reference,output}'
 
-RUN wget "${COMBAT_TB}/irida-pipeline-plugins/releases/download/0.1.0/tb-vcf-report-pipeline-plugin-0.1.0-SNAPSHOT.jar" -P /etc/irida/plugins/
+RUN wget "${COMBAT_TB_PLUGINS}/releases/download/0.1.6/tb-sample-report-pipeline-plugin-0.1.6-SNAPSHOT.jar" -P /etc/irida/plugins/
 
 VOLUME $IRIDA_DATA_DIR
 

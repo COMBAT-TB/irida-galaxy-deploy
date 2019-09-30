@@ -13,3 +13,7 @@
 
 # .tfvars files
 *.tfvars
+
+# temp
+exporter-config.ini
+my_tools.xml
