@@ -5,6 +5,10 @@ variable "image" {
 variable "flavor" {
   default = "ld1.large"
 }
+variable "volume_size" {
+  default = 50
+}
+
 
 variable "ssh_key_file" {
   default = "~/.ssh/vms"
@@ -19,7 +23,7 @@ variable "pool" {
 }
 
 variable "fqdn" {
-  default = "iridagalaxy.sanbi.ac.za"
+  default = "galiri.sanbi.ac.za"
 }
 
 variable "dns_nameservers" {

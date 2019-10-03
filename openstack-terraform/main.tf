@@ -61,11 +61,14 @@ resource "openstack_compute_floatingip_associate_v2" "irida_galaxy" {
   provisioner "remote-exec" {
     inline = [
       "sudo apt-get -y update",
-      "sudo mkfs.ext4 /dev/vdc",
+      "sudo fdisk -l",
+      "sudo mkfs.ext4 ${openstack_compute_volume_attach_v2.attached.device}",
       "sudo mkdir /data",
-      "sudo mount /dev/vdc /data",
+      "sudo mount ${openstack_compute_volume_attach_v2.attached.device} /data",
       "sudo df -h /data",
-      "sudo mkdir -p /data/irida/{sequence,reference,output}",
+      "sudo mkdir -p /data/irida/sequence",
+      "sudo mkdir -p /data/irida/reference",
+      "sudo mkdir -p /data/irida/output",
       "sudo ls /data/irida",
     ]
   }
@@ -77,8 +80,8 @@ resource "openstack_compute_floatingip_associate_v2" "irida_galaxy" {
   }
 
   provisioner "file" {
-    source      = "../docker-compose.yml"
-    destination = "docker-compose.yml"
+    source      = "../docker-compose-os.yml"
+    destination = "docker-compose-os.yml"
   }
   provisioner "file" {
     source      = "./install-docker-and-deploy.sh"
