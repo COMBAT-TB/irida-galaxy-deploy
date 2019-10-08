@@ -6,6 +6,19 @@
 
 ## Up and running
 
+### Prerequisites
+
+- [`docker`](https://docs.docker.com/install/)
+- [`docker-compose`](https://docs.docker.com/compose/)
+
+### Specs
+
+This setup was tested on a VM with the following specs.
+
+- 32G RAM
+- 4 vCPU
+- 250G Disk
+
 ### Using docker-compose
 
 **Assumption :**
@@ -13,11 +26,15 @@
 - You have [`docker`](https://docs.docker.com/install/) and [`docker-compose`](https://docs.docker.com/compose/) installed on destination instance/VM.
 
 ```sh
-$ ssh USER@REMOTE.SERVER
-$ git clone https://github.com/COMBAT-TB/irida-galaxy-deploy.git
-$ cd irida-galaxy-deploy
-$ docker-compose up -d
-...
+ssh USER@REMOTE.SERVER
+```
+
+```sh
+git clone https://github.com/COMBAT-TB/irida-galaxy-deploy.git ; cd irida-galaxy-deploy
+```
+
+```sh
+docker-compose up -d
 ```
 
 This will take a couple of minutes.. :watch: :coffee:
