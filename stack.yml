@@ -1,9 +1,9 @@
-version: '3.7'
+version: "3.7"
 
 services:
   irida_web:
     restart: always
-    image: quay.io/combat-tb/irida
+    image: quay.io/combat-tb/irida:v0.1.1
     container_name: irida_web
     depends_on:
       - irida_mysql
@@ -24,20 +24,20 @@ services:
     command: mysqld --sql_mode=""
     volumes:
       - irida_mysql_data:/var/lib/mysql
-    ports: 
+    ports:
       - "3306:3306"
-    
+
   irida_galaxy:
     restart: always
-    image: quay.io/combat-tb/galaxy
+    image: quay.io/combat-tb/galaxy:v0.1.1
     container_name: irida_galaxy
     environment:
-      GALAXY_CONFIG_BRAND: "COMBAT-TB IRIDA"
+      GALAXY_CONFIG_BRAND: "COMBAT-TB Workbench"
       GALAXY_LOGGING: full
     volumes:
       - irida_web_data:/data/irida
       - irida_galaxy_data:/export
-    ports: 
+    ports:
       - "9090:80"
       - "21:21"
       - "8800:8800"
@@ -47,4 +47,3 @@ volumes:
   irida_mysql_data:
   irida_web_data:
   irida_galaxy_data:
-

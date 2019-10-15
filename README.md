@@ -34,10 +34,11 @@ git clone https://github.com/COMBAT-TB/irida-galaxy-deploy.git ; cd irida-galaxy
 ```
 
 ```sh
-docker-compose up -d
+docker-compose -f stack.yml up -d
 ```
 
-This will take a couple of minutes.. :watch: :coffee:
+>#### NOTE:
+>This will take a couple of minutes.. :watch: :coffee:
 
 Upon completion, point your browser to:
 
@@ -46,16 +47,19 @@ Upon completion, point your browser to:
 
 The default administrator **username and password** are:
 
-- `admin:password1`for IRIDA
-- `admin:admin` for Galaxy
+- **`admin:password1`** for IRIDA
+- **`admin:admin`** for Galaxy
 
 ### Install IRIDA Tools
 
 Upon setup completion, from within the [IRIDA ToolShed][irida-toolshed], please find and install the following tools to Galaxy:
 
+- [suite_snvphyl_1_0_1][suite_snvphyl_1_0_1]
+
+If you want to import sequence data from IRIDA to Galaxy, install:
+
 - [irida_galaxy_importer][irida-importer-irida-toolshed]
   - **NB: Please follow from [tool-connection-configuration] to configure [irida_galaxy_importer][irida-importer-irida-toolshed]**.
-- [suite_snvphyl_1_0_1][suite_snvphyl_1_0_1]
 
 Once installed, you should see them show up in your list of installed tools (**Admin > Mange tools**).
 
