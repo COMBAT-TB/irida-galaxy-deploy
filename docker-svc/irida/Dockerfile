@@ -1,5 +1,5 @@
 FROM tomcat:8.0.36-jre8
-LABEL Maintainer="thoba@sanbi.ac.za"
+LABEL Maintainer="combat-tb-help@sanbi.ac.za"
 
 RUN apt-get update; \
 	apt-get -y upgrade; \
@@ -24,7 +24,7 @@ RUN set -ex; \
 
 ENV COMBAT_TB_PLUGINS="https://github.com/COMBAT-TB/irida-pipeline-plugins" \
 	IRIDA_DOWNLOAD_URL="https://github.com/phac-nml/irida/releases/download" \
-	IRIDA_VERSION="19.09" \
+	IRIDA_VERSION="19.09.2" \
 	IRIDA_DATA_DIR=/data/irida \
 	JAVA_OPTS="-Dspring.profiles.active=prod -Ddandelion.profile.active=prod" \
 	GALAXY_ADMIN_USER="admin@galaxy.org"
