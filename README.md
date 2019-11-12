@@ -25,6 +25,9 @@ This setup was tested on a VM with the following specs.
 
 - You have [`docker`](https://docs.docker.com/install/) and [`docker-compose`](https://docs.docker.com/compose/) installed on destination instance/VM.
 
+>#### NOTE:
+>You can use [scripts](scripts/) to install docker and deploy this stack.
+
 ```sh
 ssh USER@REMOTE.SERVER
 ```

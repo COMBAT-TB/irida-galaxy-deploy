@@ -2,10 +2,10 @@
 # https://github.com/galaxyproject/ansible-galaxy-tools/blob/master/files/tool_list.yaml.sample
 tools:
   - name: "tb_variant_filter"
-    owner: "sanbi-uwc"
-    tool_shed_url: "testtoolshed.g2.bx.psu.edu"
+    owner: "iuc"
+    tool_shed_url: "toolshed.g2.bx.psu.edu"
     revisions:
-      - "5f0081205b75"
+      - "3b1e7c170b10"
     tool_panel_section_label: "COMBAT-TB"
   - name: "tbvcfreport"
     owner: "iuc"
@@ -35,17 +35,47 @@ tools:
     owner: "iuc"
     tool_shed_url: "toolshed.g2.bx.psu.edu"
     revisions:
-      - "9bccc8404a3c"
+      - "4df82423ba61"
     tool_panel_section_label: "COMBAT-TB"
   - name: "snpeff"
     owner: "iuc"
     tool_shed_url: "toolshed.g2.bx.psu.edu"
     revisions:
-      - "8f92c2b26e6d"
+      - "268d162b9c49"
     tool_panel_section_label: "COMBAT-TB"
   - name: "tbprofiler"
     owner: "iuc"
     tool_shed_url: "toolshed.g2.bx.psu.edu"
     revisions:
       - "19793eecc9f0"
+    tool_panel_section_label: "COMBAT-TB"
+  - name: "iqtree"
+    owner: "iuc"
+    tool_shed_url: "toolshed.g2.bx.psu.edu"
+    revisions:
+      - "d1c340a5664b"
+    tool_panel_section_label: "Phylogenetics"
+  - name: "multiqc"
+    owner: "iuc"
+    tool_shed_url: "toolshed.g2.bx.psu.edu"
+    revisions:
+      - "b2f1f75d49c4"
+    tool_panel_section_label: "COMBAT-TB"
+  - name: "snp_sites"
+    owner: "iuc"
+    tool_shed_url: "toolshed.g2.bx.psu.edu"
+    revisions:
+      - "5804f786060d"
+    tool_panel_section_label: "COMBAT-TB"
+  - name: "snp_dists"
+    owner: "iuc"
+    tool_shed_url: "toolshed.g2.bx.psu.edu"
+    revisions:
+      - "1959cc43b414"
+    tool_panel_section_label: "COMBAT-TB"
+  - name: "bcftools_consensus"
+    owner: "iuc"
+    tool_shed_url: "toolshed.g2.bx.psu.edu"
+    revisions:
+      - "a87ae767b01d"
     tool_panel_section_label: "COMBAT-TB"
