@@ -13,9 +13,10 @@ services:
 
   irida_web:
     restart: always
-    build:
-      context: ./docker-svc/irida
-      dockerfile: Dockerfile
+    image: quay.io/combat-tb/irida:v0.1.2
+    # build:
+    #   context: ./docker-svc/irida
+    #   dockerfile: Dockerfile
     container_name: irida_web
     depends_on:
       - irida_mysql
@@ -43,9 +44,10 @@ services:
 
   irida_galaxy:
     restart: always
-    build:
-      context: ./docker-svc/galaxy
-      dockerfile: Dockerfile
+    image: quay.io/combat-tb/galaxy:v0.1.2
+    # build:
+    #   context: ./docker-svc/galaxy
+    #   dockerfile: Dockerfile
     container_name: irida_galaxy
     environment:
       GALAXY_CONFIG_BRAND: "COMBAT-TB Workbench"
