@@ -55,7 +55,7 @@ The default administrator **username and password** are:
 
 ### Install IRIDA Tools
 
-Upon setup completion, from within the [IRIDA ToolShed][irida-toolshed], please find and install the following tools to Galaxy:
+Upon setup completion, from within the [IRIDA ToolShed][irida-toolshed] in Galaxy, please find and install the following tools to Galaxy:
 
 - [suite_snvphyl_1_0_1][suite_snvphyl_1_0_1]
 
