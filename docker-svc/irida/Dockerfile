@@ -34,7 +34,7 @@ RUN mkdir -p $IRIDA_DATA_DIR; \
 	mv irida-${IRIDA_VERSION}.war /usr/local/tomcat/webapps/irida.war; \
 	bash -c 'mkdir -p ${IRIDA_DATA_DIR}/{sequence,reference,output}'
 
-RUN wget "${COMBAT_TB_PLUGINS}/releases/download/0.1.6/tb-sample-report-pipeline-plugin-0.1.6-SNAPSHOT.jar" -P /etc/irida/plugins/
+RUN wget "${COMBAT_TB_PLUGINS}/releases/download/0.1.7/tb-sample-report-pipeline-plugin-0.1.7-SNAPSHOT.jar" -P /etc/irida/plugins/
 
 VOLUME $IRIDA_DATA_DIR
 
