@@ -13,7 +13,7 @@ services:
 
   irida_web:
     restart: always
-    image: quay.io/combat-tb/irida:v0.1.2
+    image: quay.io/combat-tb/irida:v0.1.3
     # build:
     #   context: ./docker-svc/irida
     #   dockerfile: Dockerfile
@@ -44,7 +44,7 @@ services:
 
   irida_galaxy:
     restart: always
-    image: quay.io/combat-tb/galaxy:v0.1.2
+    image: quay.io/combat-tb/galaxy:v0.1.3
     # build:
     #   context: ./docker-svc/galaxy
     #   dockerfile: Dockerfile
