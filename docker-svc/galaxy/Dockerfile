@@ -1,4 +1,4 @@
-FROM quay.io/bgruening/galaxy:19.01
+FROM quay.io/bgruening/galaxy:20.05
 LABEL Maintainer="combat-tb-help@sanbi.ac.za"
 
 WORKDIR /galaxy-central
