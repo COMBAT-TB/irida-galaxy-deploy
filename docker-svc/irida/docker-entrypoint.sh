@@ -17,7 +17,7 @@ if [ "$1" = './wait-for-it.sh' ]; then
           && chown -R ${RUN_USER}:${RUN_GROUP} ${CATALINA_HOME}/work               \
           && chown -R ${RUN_USER}:${RUN_GROUP} ${CATALINA_HOME}/conf               \
           && chown -R ${RUN_USER}:${RUN_GROUP} ${IRIDA_DATA_DIR} .                 \
-          && gosu ${RUN_USER} mkdir -p ${IRIDA_DATA_DIR}/{sequence,reference,output}
+          && gosu ${RUN_USER} mkdir -p ${IRIDA_DATA_DIR}/{sequence,reference,output,assembly}
     fi
 
 	exec gosu "${RUN_USER}:${RUN_GROUP}" "$@"

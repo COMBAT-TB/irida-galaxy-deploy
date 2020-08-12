@@ -32,7 +32,7 @@ ENV COMBAT_TB_PLUGINS="https://github.com/COMBAT-TB/irida-pipeline-plugins" \
 RUN mkdir -p $IRIDA_DATA_DIR; \
 	wget "${IRIDA_DOWNLOAD_URL}/${IRIDA_VERSION}/irida-${IRIDA_VERSION}.war"; \
 	mv irida-${IRIDA_VERSION}.war /usr/local/tomcat/webapps/irida.war; \
-	bash -c 'mkdir -p ${IRIDA_DATA_DIR}/{sequence,reference,output,assembly}';
+	bash -c 'mkdir -p ${IRIDA_DATA_DIR}/{sequence,reference,output,assembly}'; #@ToDO: seemingly not picked up
 
 RUN wget "${COMBAT_TB_PLUGINS}/releases/download/0.2.0/tb-sample-report-pipeline-plugin-0.2.0-SNAPSHOT.jar" -P /etc/irida/plugins/; \
 	wget "${COMBAT_TB_PLUGINS}/releases/download/v0.1.2/snippy-tb-sample-iqtree-0.1.2-SNAPSHOT.jar" -P /etc/irida/plugins/; 
