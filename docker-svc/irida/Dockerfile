@@ -1,4 +1,4 @@
-FROM tomcat:8.0.36-jre8
+FROM tomcat:latest
 LABEL Maintainer="combat-tb-help@sanbi.ac.za"
 
 RUN apt-get update; \
