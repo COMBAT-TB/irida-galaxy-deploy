@@ -30,12 +30,16 @@ ENV COMBAT_TB_PLUGINS="https://github.com/COMBAT-TB/irida-pipeline-plugins" \
 	GALAXY_ADMIN_USER="admin@galaxy.org"
 
 RUN mkdir -p $IRIDA_DATA_DIR; \
-	wget "${IRIDA_DOWNLOAD_URL}/${IRIDA_VERSION}/irida-${IRIDA_VERSION}.war"; \
-	mv irida-${IRIDA_VERSION}.war /usr/local/tomcat/webapps/irida.war; \
-	bash -c "mkdir -p ${IRIDA_DATA_DIR}/{sequence,reference,output,assembly}"; 
+	bash -c "mkdir -p ${IRIDA_DATA_DIR}/{sequence,reference,output,assembly}";
 
-RUN wget "${COMBAT_TB_PLUGINS}/releases/download/0.2.0/tb-sample-report-pipeline-plugin-0.2.0-SNAPSHOT.jar" -P /etc/irida/plugins/; \
-	wget "${COMBAT_TB_PLUGINS}/releases/download/v0.1.2/snippy-tb-sample-iqtree-0.1.2-SNAPSHOT.jar" -P /etc/irida/plugins/; 
+ADD "${IRIDA_DOWNLOAD_URL}/${IRIDA_VERSION}/irida-${IRIDA_VERSION}.war" ./; 
+ADD "${COMBAT_TB_PLUGINS}/releases/download/0.2.0/tb-sample-report-pipeline-plugin-0.2.0-SNAPSHOT.jar"  /etc/irida/plugins/;
+ADD "${COMBAT_TB_PLUGINS}/releases/download/v0.1.2/snippy-tb-sample-iqtree-0.1.2-SNAPSHOT.jar"  /etc/irida/plugins/;
+
+RUN	mv irida-${IRIDA_VERSION}.war /usr/local/tomcat/webapps/irida.war; 
+
+#RUN wget "${COMBAT_TB_PLUGINS}/releases/download/0.2.0/tb-sample-report-pipeline-plugin-0.2.0-SNAPSHOT.jar" -P /etc/irida/plugins/; \
+#wget "${COMBAT_TB_PLUGINS}/releases/download/v0.1.2/snippy-tb-sample-iqtree-0.1.2-SNAPSHOT.jar" -P /etc/irida/plugins/; 
 
 VOLUME $IRIDA_DATA_DIR
 
