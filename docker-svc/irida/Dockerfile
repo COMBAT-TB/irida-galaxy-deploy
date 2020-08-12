@@ -35,8 +35,7 @@ RUN mkdir -p $IRIDA_DATA_DIR; \
 	bash -c 'mkdir -p ${IRIDA_DATA_DIR}/{sequence,reference,output,assembly}';
 
 RUN wget "${COMBAT_TB_PLUGINS}/releases/download/0.2.0/tb-sample-report-pipeline-plugin-0.2.0-SNAPSHOT.jar" -P /etc/irida/plugins/; \
-	wget "${COMBAT_TB_PLUGINS}/releases/download/v0.1.2/snippy-tb-sample-iqtree-0.1.2-SNAPSHOT.jar" -P /etc/irida/plugins/; \
-	wget "${COMBAT_TB_PLUGINS}/releases/download/0.1.0/tb-vcf-report-pipeline-plugin-0.1.0-SNAPSHOT.jar" -P /etc/irida/plugins/;
+	wget "${COMBAT_TB_PLUGINS}/releases/download/v0.1.2/snippy-tb-sample-iqtree-0.1.2-SNAPSHOT.jar" -P /etc/irida/plugins/; 
 
 VOLUME $IRIDA_DATA_DIR
 
