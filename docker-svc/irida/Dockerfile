@@ -23,23 +23,20 @@ RUN set -ex; \
 	gosu nobody true;
 
 ENV COMBAT_TB_PLUGINS="https://github.com/COMBAT-TB/irida-pipeline-plugins" \
-	IRIDA_DOWNLOAD_URL="https://github.com/phac-nml/irida/releases/download" \
-	IRIDA_VERSION="20.05.3" \
+	IRIDA_DOWNLOAD_URL="https://github.com/COMBAT-TB/irida/releases/download" \
+	IRIDA_VERSION="20.05" \
 	IRIDA_DATA_DIR=/data/irida \
-	JAVA_OPTS="-Dspring.profiles.active=prod -Ddandelion.profile.active=prod" \
+	JAVA_OPTS="-Dspring.profiles.active=prod -Dirida.db.profile=prod" \
 	GALAXY_ADMIN_USER="admin@galaxy.org"
 
 RUN mkdir -p $IRIDA_DATA_DIR; \
-	bash -c "mkdir -p ${IRIDA_DATA_DIR}/{sequence,reference,output,assembly}";
+	bash -c "mkdir -p ${IRIDA_DATA_DIR}/{sequence,reference,output,assembly}"
 
-ADD "${IRIDA_DOWNLOAD_URL}/${IRIDA_VERSION}/irida-${IRIDA_VERSION}.war" ./; 
 ADD "${COMBAT_TB_PLUGINS}/releases/download/0.2.0/tb-sample-report-pipeline-plugin-0.2.0-SNAPSHOT.jar"  /etc/irida/plugins/;
 ADD "${COMBAT_TB_PLUGINS}/releases/download/v0.1.2/snippy-tb-sample-iqtree-0.1.2-SNAPSHOT.jar"  /etc/irida/plugins/;
 
-RUN	mv irida-${IRIDA_VERSION}.war /usr/local/tomcat/webapps/irida.war; 
-
-#RUN wget "${COMBAT_TB_PLUGINS}/releases/download/0.2.0/tb-sample-report-pipeline-plugin-0.2.0-SNAPSHOT.jar" -P /etc/irida/plugins/; \
-#wget "${COMBAT_TB_PLUGINS}/releases/download/v0.1.2/snippy-tb-sample-iqtree-0.1.2-SNAPSHOT.jar" -P /etc/irida/plugins/; 
+RUN wget "${IRIDA_DOWNLOAD_URL}/${IRIDA_VERSION}/irida-${IRIDA_VERSION}.war"; \
+	mv irida-${IRIDA_VERSION}.war /usr/local/tomcat/webapps/irida.war
 
 VOLUME $IRIDA_DATA_DIR
 
