@@ -1,12 +1,21 @@
 FROM tomcat:latest
 LABEL Maintainer="combat-tb-help@sanbi.ac.za"
 
+ARG USER=galaxy
+ARG UID=1450
+ARG GID=1450
+# default password for user
+ARG PW=galaxy
+
 RUN apt-get update; \
 	apt-get -y upgrade; \
 	apt-get install -f ; \
 	apt-get install perl fastqc -y; \
 	rm -rf /var/lib/apt/lists/*; \
 	mkdir -p /etc/irida/plugins
+
+RUN useradd -m ${USER} --uid=${UID} && echo "${USER}:${PW}" | \
+      chpasswd
 
 ENV GOSU_VERSION 1.10
 RUN set -ex; \
@@ -36,7 +45,11 @@ RUN mkdir -p $IRIDA_DATA_DIR; \
 	wget "${IRIDA_DOWNLOAD_URL}/${IRIDA_VERSION}/irida-${IRIDA_VERSION}.war"; \
 	mv irida-${IRIDA_VERSION}.war /usr/local/tomcat/webapps/irida.war
 
+USER ${USER}
+
 VOLUME $IRIDA_DATA_DIR
+
+USER root
 
 COPY *.conf /etc/irida/
 COPY *.sh ./
