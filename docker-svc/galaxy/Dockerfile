@@ -10,7 +10,7 @@ ENV GALAXY_CONFIG_BRAND="COMBAT-TB Workbench" \
 	GALAXY_CONFIG_CONDA_ENSURE_CHANNELS="iuc,conda-forge,bioconda,defaults" 
 
 RUN sed -i -e 's/# *admin_users: .*/admin_users: admin@galaxy.org/' /etc/galaxy/galaxy.yml; \
-	sed -i -e 's/#\( *allow_path_paste:\).*/\1 True/' /etc/galaxy/galaxy.yml; \
+	sed -i -e 's/#\( *allow_path_paste:\).*/\1 true/' /etc/galaxy/galaxy.yml; \
 	sed -i -e 's/# *conda_ensure_channels: .*/conda_ensure_channels: iuc,conda-forge,bioconda,defaults/' /etc/galaxy/galaxy.yml
 
 # Adding the tool definitions to the container
