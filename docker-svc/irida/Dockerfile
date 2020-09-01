@@ -15,7 +15,7 @@ RUN apt-get update; \
 	mkdir -p /etc/irida/plugins
 
 RUN useradd -m ${USER} --uid=${UID} && echo "${USER}:${PW}" | \
-      chpasswd
+	chpasswd
 
 ENV GOSU_VERSION 1.10
 RUN set -ex; \
@@ -40,7 +40,7 @@ ENV COMBAT_TB_PLUGINS="https://github.com/COMBAT-TB/irida-pipeline-plugins" \
 
 RUN mkdir -p $IRIDA_DATA_DIR; \
 	bash -c "mkdir -p ${IRIDA_DATA_DIR}/{sequence,reference,output,assembly}"; \
-	wget "${COMBAT_TB_PLUGINS}/releases/download/0.2.0/tb-sample-report-pipeline-plugin-0.2.0-SNAPSHOT.jar"  -P /etc/irida/plugins/; \
+	wget "${COMBAT_TB_PLUGINS}/releases/download/v0.2.1/tb-sample-report-pipeline-plugin-0.2.1-SNAPSHOT.jar"  -P /etc/irida/plugins/; \
 	wget "${COMBAT_TB_PLUGINS}/releases/download/v0.1.2/snippy-tb-sample-iqtree-0.1.2-SNAPSHOT.jar" -P /etc/irida/plugins/; \
 	wget "${IRIDA_DOWNLOAD_URL}/${IRIDA_VERSION}/irida-${IRIDA_VERSION}.war"; \
 	mv irida-${IRIDA_VERSION}.war /usr/local/tomcat/webapps/irida.war
