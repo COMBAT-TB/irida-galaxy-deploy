@@ -18,5 +18,7 @@ COPY combattb-tools.yml $GALAXY_ROOT/
 # Install deepTools
 RUN install-tools $GALAXY_ROOT/combattb-tools.yml
 
+RUN usermod -a -G root galaxy
+
 # Container Style
 COPY *.png welcome.html $GALAXY_CONFIG_DIR/web/
