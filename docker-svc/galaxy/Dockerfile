@@ -20,5 +20,12 @@ RUN install-tools $GALAXY_ROOT/combattb-tools.yml
 
 RUN usermod -a -G root galaxy
 
+# Install ephemeris
+RUN conda install ephemeris
+
+# Install data-manager (data_manager_snpeff)
+RUN shed-tools install --name data_manager_snpeff --owner iuc -a abbacadabba
+RUN run-data-managers --config snpeff_data_manager.yml -a abbacadabba
+
 # Container Style
 COPY *.png welcome.html $GALAXY_CONFIG_DIR/web/
