@@ -68,6 +68,7 @@ resource "openstack_compute_floatingip_associate_v2" "irida_galaxy" {
       "sudo mkdir -p /data/irida/sequence",
       "sudo mkdir -p /data/irida/reference",
       "sudo mkdir -p /data/irida/output",
+      "sudo mkdir -p /data/irida/assembly",
     ]
   }
 
