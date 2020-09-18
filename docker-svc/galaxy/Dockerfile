@@ -15,7 +15,8 @@ RUN sed -i -e 's/# *admin_users: .*/admin_users: admin@galaxy.org/' /etc/galaxy/
 
 # Adding the tool definitions to the container
 COPY combattb-tools.yml $GALAXY_ROOT/
-# Install deepTools
+
+# Install Tools
 RUN install-tools $GALAXY_ROOT/combattb-tools.yml
 
 RUN usermod -a -G root galaxy
