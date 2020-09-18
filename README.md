@@ -53,10 +53,25 @@ The default administrator **username and password** are:
 - **`admin:password1`** for IRIDA
 - **`admin:admin`** for Galaxy
 
-### Install IRIDA Tools
+### Install or Verfiy IRIDA Tools
 
-Upon setup completion, from within the [IRIDA ToolShed][irida-toolshed] in Galaxy, please find and install the following tools to Galaxy:
+Upon setup completion, from within the [IRIDA ToolShed][irida-toolshed] in Galaxy, please find and verify if the following tools are installed in Galaxy:
 
+- bcftools_consensus
+- fastp
+- iqtree
+- multiqc
+- snippy
+- snpeff
+- text_processing
+- data_manager_snpeff
+- fastqc
+- snp_dists
+- snp_sites
+- tb_variant_filter
+- tbprofiler
+- tbvcfreport
+- trimmomatic
 - [suite_snvphyl_1_0_1][suite_snvphyl_1_0_1]
 
 If you want to import sequence data from IRIDA to Galaxy, install:
