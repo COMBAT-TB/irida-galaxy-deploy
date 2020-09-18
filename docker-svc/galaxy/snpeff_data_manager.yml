@@ -1,0 +1,14 @@
+data_managers:
+    # Data manager ID
+    - id: toolshed.g2.bx.psu.edu/repos/iuc/data_manager_snpeff/data_manager_snpeff_download/4.3.1t
+      # tool parameters, nested parameters should be specified using a pipe (|)
+      params:
+        - 'genome_version': '{{ item }}'     
+      # Items refere to a list of variables you want to run this data manager. You can use them inside the param field with {{ item }}
+      # In case of genome for example you can run this DM with multiple genomes, or you could give multiple URLs.
+      items:
+        - Mycobacterium_tuberculosis_h37rv
+      # Name of the data-tables you want to reload after your DM are finished. This can be important for subsequent data managers
+      data_table_reload:
+        - snpeffv_genomedb
+ 
