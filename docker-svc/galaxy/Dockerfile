@@ -27,8 +27,6 @@ RUN usermod -a -G root galaxy
 
 # Install data-manager (data_manager_snpeff)
 RUN /tool_deps/_conda/bin/conda install ephemeris
-RUN echo $GALAXY_DEFAULT_ADMIN_USER
-RUN echo $GALAXY_DEFAULT_ADMIN_PASSWORD
 RUN startup_lite && \
 	/tool_deps/_conda/bin/run-data-managers -u admin@galaxy.org -p $GALAXY_DEFAULT_ADMIN_PASSWORD \
         -g http://localhost:8080 --config snpeff_data_manager.yml

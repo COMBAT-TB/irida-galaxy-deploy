@@ -6,8 +6,7 @@ tools:
     tool_shed_url: "toolshed.g2.bx.psu.edu"
     revisions:
       - "e7b2202befea"
-    tool_panel_section_label: "COMBAT-TB"
-  
+    tool_panel_section_label: "COMBAT-TB"  
   - name: "tb_variant_filter"
     owner: "iuc"
     tool_shed_url: "toolshed.g2.bx.psu.edu"
@@ -42,7 +41,7 @@ tools:
     owner: "iuc"
     tool_shed_url: "toolshed.g2.bx.psu.edu"
     revisions:
-      - "53fe8ef358d6"
+      - "3fe8ef358d66"
     tool_panel_section_label: "COMBAT-TB"
   - name: "snpeff"
     owner: "iuc"
