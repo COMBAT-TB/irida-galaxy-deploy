@@ -28,6 +28,9 @@ services:
       - irida_mysql_data:/var/lib/mysql
     ports:
       - "3306:3306"
+    cap_add:
+      - SYS_NICE  # CAP_SYS_NICE
+
 
   irida_galaxy:
     restart: always
