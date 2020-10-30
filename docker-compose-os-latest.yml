@@ -1,3 +1,4 @@
+#For Openstack
 version: "3.7"
 
 services:
@@ -49,8 +50,23 @@ services:
       - "21:21"
       - "8800:8800"
       - "9002:9002"
-    
+
+#this is for openstack
+networks:
+  default:
+    driver: bridge
+    driver_opts:
+      com.docker.network.driver.mtu: 1450
+
 volumes:
   irida_mysql_data:
   irida_web_data:
+    driver_opts:
+      type: none
+      device: /data
+      o: bind
   irida_galaxy_data:
+    driver_opts:
+      type: none
+      device: /data
+      o: bind 
