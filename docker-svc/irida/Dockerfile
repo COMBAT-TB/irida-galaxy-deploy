@@ -52,6 +52,8 @@ VOLUME $IRIDA_DATA_DIR
 USER root
 
 COPY *.conf /etc/irida/
+COPY etc-irida/static /etc/irida/static
+COPY etc-irida/templates /etc/irida/templates
 COPY *.sh ./
 
 ENTRYPOINT ["./docker-entrypoint.sh"]
