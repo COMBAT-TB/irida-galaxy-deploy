@@ -10,7 +10,7 @@ ARG PW=galaxy
 RUN apt-get update; \
 	apt-get -y upgrade; \
 	apt-get install -f ; \
-	apt-get install perl fastqc -y; \
+	apt-get install perl fastqc nginx-full -y; \
 	rm -rf /var/lib/apt/lists/*; \
 	mkdir -p /etc/irida/plugins
 
@@ -43,7 +43,7 @@ RUN mkdir -p $IRIDA_DATA_DIR; \
 	wget "${COMBAT_TB_PLUGINS}/releases/download/v0.2.3/tb-sample-report-pipeline-plugin-0.2.3-SNAPSHOT.jar"  -P /etc/irida/plugins/; \
 	wget "${COMBAT_TB_PLUGINS}/releases/download/v0.1.2/snippy-tb-sample-iqtree-0.1.3.jar" -P /etc/irida/plugins/; \
 	wget "${IRIDA_DOWNLOAD_URL}/${IRIDA_VERSION}/irida-${IRIDA_VERSION}.war"; \
-	mv irida-${IRIDA_VERSION}.war /usr/local/tomcat/webapps/irida.war
+	mv irida-${IRIDA_VERSION}.war /usr/local/tomcat/webapps/ROOT.war
 
 USER ${USER}
 
@@ -56,6 +56,10 @@ COPY etc-irida/static /etc/irida/static
 COPY etc-irida/templates /etc/irida/templates
 COPY *.sh ./
 
+COPY nginx-config /etc/nginx/sites-available/default
+COPY start-daemons.sh /usr/local/bin/start-daemons.sh
+RUN chmod a+x /usr/local/bin/start-daemons.sh
+
 ENTRYPOINT ["./docker-entrypoint.sh"]
 
-CMD ["./wait-for-it.sh", "irida_mysql:3306", "--", "catalina.sh", "run"]`
+CMD ["./wait-for-it.sh", "irida_mysql:3306", "--", "/usr/local/bin/start-daemons.sh"]
