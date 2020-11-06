@@ -1,7 +1,8 @@
 server {
   listen 80;
 
-  server_name    example.com;
+  client_max_body_size 50g;
+
   access_log /var/log/nginx/tomcat-access.log;
   error_log /var/log/nginx/tomcat-error.log;
 
