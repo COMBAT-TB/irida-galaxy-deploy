@@ -10,27 +10,23 @@ services:
     depends_on:
       - irida_mysql
     ports:
-      - "8080:8080"
+      - "80:80"
     volumes:
       - irida_web_data:/data/irida
 
   irida_mysql:
     restart: always
-    image: mysql:8.0
+    image: mariadb:10.5.6
     container_name: irida_mysql
     environment:
       MYSQL_ROOT_PASSWORD: rootpasswd
       MYSQL_DATABASE: irida_db
       MYSQL_USER: irida_user
       MYSQL_PASSWORD: irida_passwd
-    command: mysqld --sql_mode=""
     volumes:
       - irida_mysql_data:/var/lib/mysql
     ports:
       - "3306:3306"
-    cap_add:
-      - SYS_NICE  # CAP_SYS_NICE
-
 
   irida_galaxy:
     restart: always
@@ -54,3 +50,9 @@ volumes:
   irida_mysql_data:
   irida_web_data:
   irida_galaxy_data:
+
+networks:
+  default:
+    driver: bridge
+    driver_opts:
+      com.docker.network.driver.mtu: 1450
