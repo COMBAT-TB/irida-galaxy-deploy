@@ -91,6 +91,12 @@ tools:
     revisions:
       - "08d7998c3afb"
     tool_panel_section_label: "COMBAT-TB"
+  - name: "vcf_to_alignment"
+    owner: "sanbi-uwc"
+    tool_shed_url: "testtoolshed.g2.bx.psu.edu"
+    revisions:
+      - "4f3f7d390382"
+    tool_panel_section_label: "COMBAT-TB"
 
 
 
