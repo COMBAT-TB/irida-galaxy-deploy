@@ -33,7 +33,7 @@ RUN set -ex; \
 
 ENV COMBAT_TB_PLUGINS="https://github.com/COMBAT-TB/irida-pipeline-plugins" \
 	IRIDA_DOWNLOAD_URL="https://github.com/phac-nml/irida/releases/download/" \
-	IRIDA_VERSION="20.09.2" \
+	IRIDA_VERSION="20.09.3" \
 	IRIDA_DATA_DIR=/data/irida \
 	JAVA_OPTS="-Dspring.profiles.active=prod -Dirida.db.profile=prod" \
 	GALAXY_ADMIN_USER="admin@galaxy.org"
