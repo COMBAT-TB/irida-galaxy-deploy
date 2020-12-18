@@ -1,7 +1,9 @@
-FROM quay.io/bgruening/galaxy:20.05
+FROM quay.io/bgruening/galaxy:20.09
 LABEL Maintainer="combat-tb-help@sanbi.ac.za"
 
 WORKDIR /galaxy-central
+
+RUN apt update && apt install -y netcat-openbsd
 
 RUN add-tool-shed --url 'http://testtoolshed.g2.bx.psu.edu/' --name 'Test Tool Shed'; \
 	add-tool-shed --url 'https://irida.corefacility.ca/galaxy-shed/' --name 'IRIDA Tool Shed'
