@@ -97,6 +97,10 @@ tools:
     revisions:
       - "4f3f7d390382"
     tool_panel_section_label: "COMBAT-TB"
-
-
+  - name: "samtools_flagstat"
+    owner: "devteam"
+    tool_shed_url: "toolshed.g2.bx.psu.edu"
+    revisions:
+      - "22970df7a40e"
+    tool_panel_section_label: "COMBAT-TB"
 
