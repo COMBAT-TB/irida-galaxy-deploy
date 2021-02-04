@@ -31,17 +31,15 @@ RUN set -ex; \
 	chmod +x /usr/local/bin/gosu; \
 	gosu nobody true;
 
-ENV COMBAT_TB_PLUGINS="https://github.com/COMBAT-TB/irida-pipeline-plugins" \
-	IRIDA_DOWNLOAD_URL="https://github.com/phac-nml/irida/releases/download/" \
-	IRIDA_VERSION="20.09.3" \
+ENV	IRIDA_DOWNLOAD_URL="https://github.com/phac-nml/irida/releases/download/" \
+	IRIDA_VERSION="21.01" \
 	IRIDA_DATA_DIR=/data/irida \
 	JAVA_OPTS="-Dspring.profiles.active=prod -Dirida.db.profile=prod" \
 	GALAXY_ADMIN_USER="admin@galaxy.org"
 
+
 RUN mkdir -p $IRIDA_DATA_DIR; \
 	bash -c "mkdir -p ${IRIDA_DATA_DIR}/{sequence,reference,output,assembly}"; \
-	wget "${COMBAT_TB_PLUGINS}/releases/download/v0.2.4/tb-sample-report-pipeline-plugin-0.2.4.jar"  -P /etc/irida/plugins/; \
-	wget "${COMBAT_TB_PLUGINS}/releases/download/v0.1.4/snippy-tb-sample-iqtree-0.1.4.jar" -P /etc/irida/plugins/; \
 	wget "${IRIDA_DOWNLOAD_URL}/${IRIDA_VERSION}/irida-${IRIDA_VERSION}.war"; \
 	mv irida-${IRIDA_VERSION}.war /usr/local/tomcat/webapps/ROOT.war
 
@@ -60,6 +58,9 @@ COPY etc-irida/templates /etc/irida/templates
 COPY nginx-config /etc/nginx/sites-available/default
 COPY start-daemons.sh /usr/local/bin/start-daemons.sh
 RUN chmod a+x /usr/local/bin/start-daemons.sh
+
+RUN wget -P /etc/irida/plugins https://github.com/COMBAT-TB/irida-plugin-tb-sample-report/releases/download/0.3.1/tb-sample-report-pipeline-plugin-0.3.1.jar
+RUN wget -P /etc/irida/plugins https://github.com/COMBAT-TB/irida-plugin-tb-phylogeny/releases/download/0.1.4/tb-phylogeny-pipeline-plugin-0.1.4.jar
 
 ENTRYPOINT ["./docker-entrypoint.sh"]
 
