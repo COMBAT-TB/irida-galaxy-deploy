@@ -89,7 +89,7 @@ tools:
     owner: "iuc"
     tool_shed_url: "toolshed.g2.bx.psu.edu"
     revisions:
-      - "08d7998c3afb"
+      - "def511e8e005"
     tool_panel_section_label: "COMBAT-TB"
   - name: "vcf_to_alignment"
     owner: "sanbi-uwc"
