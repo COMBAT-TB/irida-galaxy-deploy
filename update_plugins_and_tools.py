@@ -24,7 +24,7 @@ def load_extra_tools(tools_file: TextIO, known_tools: Set[str], tools: List[dict
     for tool in data['tools']:
         for revision in tool['revisions']:
             known_tools.add(tool_key(tool, revision))
-    tools.append(tool)
+        tools.append(tool)
     return ()
 
 
