@@ -16,10 +16,10 @@ RUN sed -i -e 's/# *admin_users: .*/admin_users: admin@galaxy.org/' /etc/galaxy/
 	sed -i -e 's/# *conda_ensure_channels: .*/conda_ensure_channels: iuc,conda-forge,bioconda,defaults/' /etc/galaxy/galaxy.yml
 
 # Adding the tool definitions and data manager to the container
-COPY combattb-tools.yml snpeff_data_manager.yml $GALAXY_ROOT/
+COPY galaxy-tools.yml snpeff_data_manager.yml $GALAXY_ROOT/
 
 # Install Combact-TB Tools
-RUN install-tools $GALAXY_ROOT/combattb-tools.yml && \
+RUN install-tools $GALAXY_ROOT/galaxy-tools.yml && \
     /tool_deps/_conda/bin/conda clean --tarballs --yes > /dev/null && \
     rm /export/galaxy-central/ -rf && \
     mkdir -p $GALAXY_HOME/workflows
