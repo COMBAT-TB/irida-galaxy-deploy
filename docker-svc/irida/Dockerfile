@@ -59,7 +59,7 @@ COPY nginx-config /etc/nginx/sites-available/default
 COPY start-daemons.sh /usr/local/bin/start-daemons.sh
 RUN chmod a+x /usr/local/bin/start-daemons.sh
 
-COPY workflows/* /etc/irida/plugins
+COPY workflows/* /etc/irida/plugins/
 
 ENTRYPOINT ["./docker-entrypoint.sh"]
 
