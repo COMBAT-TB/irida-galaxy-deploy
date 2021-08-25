@@ -1,2 +1,2 @@
-https://github.com/COMBAT-TB/irida-plugin-tb-sample-report/releases/download/0.4.0/tb-sample-report-pipeline-plugin-0.4.0.jar
+https://github.com/COMBAT-TB/irida-plugin-tb-sample-report/releases/download/0.4.1/tb-sample-report-pipeline-plugin-0.4.1.jar
 https://github.com/COMBAT-TB/irida-plugin-tb-phylogeny/releases/download/0.1.4/tb-phylogeny-pipeline-plugin-0.1.4.jar

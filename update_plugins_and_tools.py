@@ -16,7 +16,7 @@ def tool_key(tool: dict, revision: str = None) -> str:
         key = '-'.join([tool['name'], tool['owner'], tool['tool_shed_url']])
     else:
         key = '-'.join([tool['name'], tool['owner'], tool['tool_shed_url'], revision])
-
+    return key
 
 def load_extra_tools(tools_file: TextIO, known_tools: Set[str], tools: Mapping[str, dict]):
     """load_extra_tools:
@@ -29,8 +29,6 @@ def load_extra_tools(tools_file: TextIO, known_tools: Set[str], tools: Mapping[s
         for revision in tool['revisions']:
             known_tools.add(tool_key(tool, revision))
         tools[tool_key(tool)] = tool
-    return ()
-
 
 def fetch_and_store_workflow(url: str, http: urllib3.PoolManager,
                              workflow_dir: str, known_tools: Set[str], tools: Mapping[str, dict]):
@@ -89,7 +87,6 @@ if __name__ == '__main__':
     if args.extra_tools_file is not None:
         load_extra_tools(args.extra_tools_file, known_tools, tools)
 
-    
     workflow_urls = []
     for line in args.workflow_file:
         line = line.strip()
