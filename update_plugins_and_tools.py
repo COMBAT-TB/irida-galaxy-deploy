@@ -4,7 +4,7 @@ import argparse
 import io
 import pathlib
 import re
-import sys
+import shutil
 from typing import Reversible, TextIO, List, Set, Mapping
 import urllib3
 import zipfile
@@ -66,6 +66,8 @@ def fetch_and_store_workflow(url: str, http: urllib3.PoolManager,
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Set up environment for IRIDA and Galaxy deployment')
+    parser.add_argument('--remove_old_workflows', action='store_true', default=False,
+                        help='Delete old workflows from the workflow dir')
     parser.add_argument('--extra_tools_file', type=argparse.FileType(),
                         help='A Galaxy tools.yaml format file with tools to add in addition to the ones listed in the workflow jar files')
     parser.add_argument('--workflow_dir', default='docker-svc/irida/workflows', help='Location to store downloaded workflow jar files')
@@ -77,8 +79,12 @@ if __name__ == '__main__':
 
 
     workflow_output_path = pathlib.Path(args.workflow_dir)
-    if workflow_output_path.exists() and not workflow_output_path.is_dir():
-        exit(f"Workflow output path ({workflow_output_path}) exists but it is not a directory")
+    if workflow_output_path.exists():
+        if not workflow_output_path.is_dir():
+            exit(f"Workflow output path ({workflow_output_path}) exists but it is not a directory")
+        elif args.remove_old_workflows:
+            shutil.rmtree(args.workflow_dir)
+            workflow_output_path.mkdir()
     elif not workflow_output_path.exists():
         workflow_output_path.mkdir()
 
