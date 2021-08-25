@@ -5,16 +5,20 @@ import io
 import pathlib
 import re
 import sys
-from typing import TextIO, List, Set
+from typing import Reversible, TextIO, List, Set, Dict
 import urllib3
 import zipfile
 
 import yaml
 
-def tool_key(tool: dict, revision: str) -> str:
-    return '-'.join([tool['name'], tool['owner'], tool['tool_shed_url'], revision])
+def tool_key(tool: dict, revision: str = None) -> str:
+    if revision is None:
+        key = '-'.join([tool['name'], tool['owner'], tool['tool_shed_url']])
+    else:
+        key = '-'.join([tool['name'], tool['owner'], tool['tool_shed_url'], revision])
 
-def load_extra_tools(tools_file: TextIO, known_tools: Set[str], tools: List[dict]):
+
+def load_extra_tools(tools_file: TextIO, known_tools: Set[str], tools: Dict[dict]):
     """load_extra_tools:
         tools_file - Open file referring to a Galaxy tools.yaml format file with tools to add
         known_tools - set of known tools - is modified in place
@@ -24,12 +28,12 @@ def load_extra_tools(tools_file: TextIO, known_tools: Set[str], tools: List[dict
     for tool in data['tools']:
         for revision in tool['revisions']:
             known_tools.add(tool_key(tool, revision))
-        tools.append(tool)
+        tools[tool_key(tool)] = tool
     return ()
 
 
 def fetch_and_store_workflow(url: str, http: urllib3.PoolManager,
-                             workflow_dir: str, known_tools: Set[str], tools: List[dict]):
+                             workflow_dir: str, known_tools: Set[str], tools: Dict[dict]):
     version_re = re.compile(r'.*(\d+\.\d+\.\d+).jar')
     version_match = version_re.match(url)
     if version_match is not None:
@@ -55,7 +59,12 @@ def fetch_and_store_workflow(url: str, http: urllib3.PoolManager,
                                 known_tools.add(key)
                         if len(revisions_to_keep) > 0:
                             tool['revisions'] = revisions_to_keep
-                            tools.append(tool)
+                            this_tool_key = tool_key(tool)
+                            if this_tool_key in tools:
+                                tools[this_tool_key]['revisions'].extend(revisions_to_keep)
+                            else:
+                                tools[this_tool_key] = tool
+                            
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Set up environment for IRIDA and Galaxy deployment')
@@ -94,7 +103,10 @@ if __name__ == '__main__':
     header = {'install_tool_dependencies': True, 'install_repository_dependencies': True, 'install_resolver_dependencies': True}
 
     tool_config = header
-    tool_config['tools'] = tools
+    tool_list = []
+    for key in tools:
+        tool_list.append(tools[key])
+    tool_config['tools'] = tool_list
     yaml.dump(tool_config, open(args.galaxy_tools_path, 'w'), Dumper=yaml.CDumper)
 
 
