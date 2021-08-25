@@ -5,7 +5,7 @@ import io
 import pathlib
 import re
 import sys
-from typing import Reversible, TextIO, List, Set, Dict
+from typing import Reversible, TextIO, List, Set, Mapping
 import urllib3
 import zipfile
 
@@ -18,7 +18,7 @@ def tool_key(tool: dict, revision: str = None) -> str:
         key = '-'.join([tool['name'], tool['owner'], tool['tool_shed_url'], revision])
 
 
-def load_extra_tools(tools_file: TextIO, known_tools: Set[str], tools: Dict[dict]):
+def load_extra_tools(tools_file: TextIO, known_tools: Set[str], tools: Mapping[str, dict]):
     """load_extra_tools:
         tools_file - Open file referring to a Galaxy tools.yaml format file with tools to add
         known_tools - set of known tools - is modified in place
@@ -33,7 +33,7 @@ def load_extra_tools(tools_file: TextIO, known_tools: Set[str], tools: Dict[dict
 
 
 def fetch_and_store_workflow(url: str, http: urllib3.PoolManager,
-                             workflow_dir: str, known_tools: Set[str], tools: Dict[dict]):
+                             workflow_dir: str, known_tools: Set[str], tools: Mapping[str, dict]):
     version_re = re.compile(r'.*(\d+\.\d+\.\d+).jar')
     version_match = version_re.match(url)
     if version_match is not None:
@@ -85,7 +85,7 @@ if __name__ == '__main__':
         workflow_output_path.mkdir()
 
     known_tools = set()
-    tools = []
+    tools = {}
     if args.extra_tools_file is not None:
         load_extra_tools(args.extra_tools_file, known_tools, tools)
 
