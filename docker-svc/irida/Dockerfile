@@ -32,7 +32,7 @@ RUN set -ex; \
 	gosu nobody true;
 
 ENV	IRIDA_DOWNLOAD_URL="https://github.com/phac-nml/irida/releases/download/" \
-	IRIDA_VERSION="21.01" \
+	IRIDA_VERSION="21.05" \
 	IRIDA_DATA_DIR=/data/irida \
 	JAVA_OPTS="-Dspring.profiles.active=prod -Dirida.db.profile=prod" \
 	GALAXY_ADMIN_USER="admin@galaxy.org"
@@ -59,8 +59,7 @@ COPY nginx-config /etc/nginx/sites-available/default
 COPY start-daemons.sh /usr/local/bin/start-daemons.sh
 RUN chmod a+x /usr/local/bin/start-daemons.sh
 
-RUN wget -P /etc/irida/plugins https://github.com/COMBAT-TB/irida-plugin-tb-sample-report/releases/download/0.3.1/tb-sample-report-pipeline-plugin-0.3.1.jar
-RUN wget -P /etc/irida/plugins https://github.com/COMBAT-TB/irida-plugin-tb-phylogeny/releases/download/0.1.4/tb-phylogeny-pipeline-plugin-0.1.4.jar
+COPY workflows/* /etc/irida/plugins/
 
 ENTRYPOINT ["./docker-entrypoint.sh"]
 

@@ -17,3 +17,9 @@
 # temp
 exporter-config.ini
 my_tools.xml
+
+# directory populated with downloaded workflows
+docker-svc/irida/workflows
+
+# tools to be installed in Galaxy (generated from workflows and extra-galaxy-tools.yml)
+docker-svc/galaxy/galaxy-tools.yml

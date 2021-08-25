@@ -53,31 +53,19 @@ The default administrator **username and password** are:
 - **`admin:password1`** for IRIDA
 - **`admin:admin`** for Galaxy
 
-### Install or Verfiy IRIDA Tools
+### Install tools needed by workflows
 
-Upon setup completion, from within the [IRIDA ToolShed][irida-toolshed] in Galaxy, please find and verify if the following tools are installed in Galaxy:
+The 'new style' [irida-plugin-builder](https://github.com/COMBAT-TB/irida-plugin-builder) bundles a `tools.yaml` with each pipeline in the pipeline jar file. The [TB Sample Report](https://github.com/COMBAT-TB/irida-plugin-tb-sample-report) and [TB Phylogeny](https://github.com/COMBAT-TB/irida-plugin-tb-phylogeny) pipelines are built using this builder and for each release a pipeline is
+published on the corresponding Github repositories.
 
-- bcftools_consensus
-- fastp
-- iqtree
-- multiqc
-- snippy
-- snpeff
-- text_processing
-- data_manager_snpeff
-- fastqc
-- snp_dists
-- snp_sites
-- tb_variant_filter
-- tbprofiler
-- tbvcfreport
-- trimmomatic
-- [suite_snvphyl_1_0_1][suite_snvphyl_1_0_1]
+This repository includes a script `update_plugins_and_tools.py` (a Python3 script) that can download these plugins and configure the collection of tools to be installed into Galaxy. This tool takes as input a list of workflows to download (see `workflows.txt`) and optionally some extra Galaxy tools not mentioned in the workflows (see `extra-galaxy-tools.yml`). Here is a typical run of this tool:
 
-If you want to import sequence data from IRIDA to Galaxy, install:
+```bash
+./update_plugins_and_tools.py --extra_tools_file extra-galaxy-tools.yml workflows.txt
+```
 
-- [irida_galaxy_importer][irida-importer-irida-toolshed]
-  - **NB: Please follow from [tool-connection-configuration] to configure [irida_galaxy_importer][irida-importer-irida-toolshed]**.
+This should be run *before* the `docker-compose up` command and whenever workflows are updated or new ones added. It will require rebuilding the Docker containers i.e. `docker-compose up --build`. The `update_plugins_and_tools.py` script also has an optional
+`--remove_old_workflows` script that will delete all workflows in the workflow directory before downloading new ones.
 
 Once installed, you should see them show up in your list of installed tools (**Admin > Mange tools**).
 
