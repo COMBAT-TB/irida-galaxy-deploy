@@ -10,7 +10,7 @@ services:
     depends_on:
       - irida_mysql
     ports:
-      - "80:80"
+      - "8081:80"
     volumes:
       - irida_web_data:/data/irida
 
