@@ -2,8 +2,6 @@
 
  A Dockerized IRIDA-Galaxy installation configured to be deployed on a single instance/VM.
 
-:whale: [![Docker Repository on Quay](https://quay.io/repository/combat-tb/irida/status "Docker Repository on Quay")](https://quay.io/repository/combat-tb/irida) :whale: [![Docker Repository on Quay](https://quay.io/repository/combat-tb/irida/status "Docker Repository on Quay")](https://quay.io/repository/combat-tb/irida)
-
 ## Up and running
 
 ### Prerequisites
@@ -28,6 +26,8 @@ This setup was tested on a VM with the following specs.
 >#### NOTE:
 >You can use [scripts](scripts/) to install docker and deploy this stack.
 
+Connect to the server where you want to install the Workbench:
+
 ```sh
 ssh USER@REMOTE.SERVER
 ```
@@ -36,8 +36,37 @@ ssh USER@REMOTE.SERVER
 git clone https://github.com/COMBAT-TB/irida-galaxy-deploy.git ; cd irida-galaxy-deploy
 ```
 
+### Install tools needed by workflows
+
+The 'new style' [irida-plugin-builder](https://github.com/COMBAT-TB/irida-plugin-builder) bundles a `tools.yaml` with each pipeline in the pipeline jar file. The [TB Sample Report](https://github.com/COMBAT-TB/irida-plugin-tb-sample-report) and [TB Phylogeny](https://github.com/COMBAT-TB/irida-plugin-tb-phylogeny) pipelines are built using this builder and for each release a pipeline is
+published on the corresponding Github repositories.
+
+This repository includes a script `update_plugins_and_tools.py` (a Python3 script) that can download these plugins and configure the collection of tools to be installed into Galaxy. This tool takes as input a list of workflows to download (see `workflows.txt`) and optionally some extra Galaxy tools not mentioned in the workflows (see `extra-galaxy-tools.yml`). Here is a typical run of this tool:
+
+```bash
+./update_plugins_and_tools.py --extra_tools_file extra-galaxy-tools.yml workflows.txt
+```
+
+This should be run *before* the `docker-compose up` command and whenever workflows are updated or new ones added. It will require rebuilding the Docker containers i.e. `docker-compose up --build -d`. The `update_plugins_and_tools.py` script also has an option `--remove_old_workflows` that will delete all workflows in the workflow directory before downloading new ones. This should be used when new versions of workflows are downloaded.
+
+### Start the Workbench
+
+For the first time you start the Workbench
+
 ```sh
-docker-compose -f stack.yml up -d
+docker-compose up --build -d
+```
+
+To shut down the Workbench (again from the same directory where the Workbench code is installed):
+
+```sh
+docker-compose down
+```
+
+To start the Workbench again:
+
+```
+docker-compose up -d
 ```
 
 >#### NOTE:
@@ -52,22 +81,6 @@ The default administrator **username and password** are:
 
 - **`admin:password1`** for IRIDA
 - **`admin:admin`** for Galaxy
-
-### Install tools needed by workflows
-
-The 'new style' [irida-plugin-builder](https://github.com/COMBAT-TB/irida-plugin-builder) bundles a `tools.yaml` with each pipeline in the pipeline jar file. The [TB Sample Report](https://github.com/COMBAT-TB/irida-plugin-tb-sample-report) and [TB Phylogeny](https://github.com/COMBAT-TB/irida-plugin-tb-phylogeny) pipelines are built using this builder and for each release a pipeline is
-published on the corresponding Github repositories.
-
-This repository includes a script `update_plugins_and_tools.py` (a Python3 script) that can download these plugins and configure the collection of tools to be installed into Galaxy. This tool takes as input a list of workflows to download (see `workflows.txt`) and optionally some extra Galaxy tools not mentioned in the workflows (see `extra-galaxy-tools.yml`). Here is a typical run of this tool:
-
-```bash
-./update_plugins_and_tools.py --extra_tools_file extra-galaxy-tools.yml workflows.txt
-```
-
-This should be run *before* the `docker-compose up` command and whenever workflows are updated or new ones added. It will require rebuilding the Docker containers i.e. `docker-compose up --build`. The `update_plugins_and_tools.py` script also has an optional
-`--remove_old_workflows` script that will delete all workflows in the workflow directory before downloading new ones.
-
-Once installed, you should see them show up in your list of installed tools (**Admin > Mange tools**).
 
 ### Deploying to OpenStack
 
