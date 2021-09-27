@@ -1,6 +1,6 @@
-# docker-irida-galaxy
+# COMBAT-TB Workbench
 
- A Dockerized IRIDA-Galaxy installation configured to be deployed on a single instance/VM.
+The COMBAT-TB Workbench is an IRIDA based, module workbench for *M. tuberculosis* bioinformatics. It is designed to be easily deployed on a single server.
 
 ## Up and running
 
