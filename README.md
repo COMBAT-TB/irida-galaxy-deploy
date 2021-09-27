@@ -85,8 +85,3 @@ The default administrator **username and password** are:
 ### Deploying to OpenStack
 
 *Please see [openstack-terraform](openstack-terraform/) to deploy to OpenStack using Terraform.*
-
-[irida-importer-irida-toolshed]: http://irida.corefacility.ca/galaxy-shed/view/irida/irida_galaxy_importer/d82238b091f2
-[suite_snvphyl_1_0_1]: https://irida.corefacility.ca/galaxy-shed/view/nml/suite_snvphyl_1_0_1/4841b7148c44
-[irida-toolshed]: https://irida.corefacility.ca/galaxy-shed
-[tool-connection-configuration]: https://github.com/phac-nml/irida-galaxy-importer#22-tool-connection-configuration
