@@ -1,4 +1,4 @@
-FROM tomcat:latest
+FROM tomcat:9.0.65-jre8
 LABEL Maintainer="combat-tb-help@sanbi.ac.za"
 
 ARG USER=galaxy
@@ -10,33 +10,19 @@ ARG PW=galaxy
 RUN apt-get update; \
 	apt-get -y upgrade; \
 	apt-get install -f ; \
-	apt-get install perl fastqc nginx-full -y; \
+	apt-get install wget gosu perl fastqc nginx-full -y; \
 	rm -rf /var/lib/apt/lists/*; \
+	gosu nobody true; \
 	mkdir -p /etc/irida/plugins
 
 RUN useradd -m ${USER} --uid=${UID} && echo "${USER}:${PW}" | \
 	chpasswd
-
-ENV GOSU_VERSION 1.10
-RUN set -ex; \
-	apt-get install -y --no-install-recommends ca-certificates; \
-	rm -rf /var/lib/apt/lists/*; \
-	dpkgArch="$(dpkg --print-architecture | awk -F- '{ print $NF }')"; \
-	wget -O /usr/local/bin/gosu "https://github.com/tianon/gosu/releases/download/$GOSU_VERSION/gosu-$dpkgArch"; \
-	wget -O /usr/local/bin/gosu.asc "https://github.com/tianon/gosu/releases/download/$GOSU_VERSION/gosu-$dpkgArch.asc"; \
-	export GNUPGHOME="$(mktemp -d)"; \
-	gpg --keyserver ha.pool.sks-keyservers.net --recv-keys B42F6819007F00F88E364FD4036A9C25BF357DD4; \
-	gpg --batch --verify /usr/local/bin/gosu.asc /usr/local/bin/gosu; \
-	rm -r "$GNUPGHOME" /usr/local/bin/gosu.asc; \
-	chmod +x /usr/local/bin/gosu; \
-	gosu nobody true;
 
 ENV	IRIDA_DOWNLOAD_URL="https://github.com/phac-nml/irida/releases/download/" \
 	IRIDA_VERSION="21.05" \
 	IRIDA_DATA_DIR=/data/irida \
 	JAVA_OPTS="-Dspring.profiles.active=prod -Dirida.db.profile=prod" \
 	GALAXY_ADMIN_USER="admin@galaxy.org"
-
 
 RUN mkdir -p $IRIDA_DATA_DIR; \
 	bash -c "mkdir -p ${IRIDA_DATA_DIR}/{sequence,reference,output,assembly}"; \
